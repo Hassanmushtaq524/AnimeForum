@@ -105,14 +105,26 @@ router.delete("/delete/:id", fetchuser, async (req, res) => {
 // /api/posts/comment
 router.put("/comment", fetchuser, async (req, res) => {
     try {
+        let success = false;
         let comment = req.body.comment;
         // set the postedBy user to current logged in user
         comment.postedBy = req.user.id;
 
         Post.findByIdAndUpdate(
             req.body.postId,
-            { $push: { comments}}
+            { $push: { comments: comment } },
+            { new: true }
         )
+        .exec((err, result) => {
+            // find any errors
+            if (err) {
+                return res.status(400).json({ success, error: err});
+            } else {
+                // query is successful
+                success = true;
+                return res.json(success, result);
+            }
+        })
     } catch (error) {
         return res.status(500).json({ error: "Internal server error." })
     }
