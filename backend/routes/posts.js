@@ -70,7 +70,7 @@ router.put("/update/:id", fetchuser, async (req, res) => {
         if (req.user.id !== post.user.toString()) {
             return res.status(400).json({ success, error: "Invalid request." });
         }
-        // update the note
+        // update the post
         post = await Post.findByIdAndUpdate(req.params.id, { $set: newPost }, { new: true });
         success = true;
         return res.status(200).json({ success, post });
