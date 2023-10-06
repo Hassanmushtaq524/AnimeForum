@@ -31,7 +31,7 @@ router.post("/create", fetchuser,
             success = true;
             return res.status(200).json({ success, post })
         } catch (error) {
-            return res.status(500).json({ error: "Internal server error." })
+            return res.status(500).json({ error: "Internal server error." });
         }
     })
 
@@ -43,9 +43,9 @@ router.get("/fetchAll", async (req, res) => {
         // returns the array of
         let postsArr = await Post.find({});
         success = true;
-        return res.status(200).json({ success, postsArr })
+        return res.status(200).json({ success, postsArr });
     } catch (error) {
-        return res.status(500).json({ error: "Internal server error." })
+        return res.status(500).json({ error: "Internal server error." });
     }
 })
 
@@ -62,7 +62,6 @@ router.put("/update/:id", fetchuser, async (req, res) => {
         if (tag) newPost.tag = tag;
         // get the post by ID
         let post = await Post.findById(req.params.id);
-        console.log("Here");
         if (!post) {
             return res.status(400).json({ success, error: "Invalid request." });
         }
@@ -75,7 +74,7 @@ router.put("/update/:id", fetchuser, async (req, res) => {
         success = true;
         return res.status(200).json({ success, post });
     } catch (error) {
-        return res.status(500).json({ error: "Internal server error." })
+        return res.status(500).json({ error: "Internal server error." });
     }
 })
 
@@ -95,20 +94,20 @@ router.delete("/delete/:id", fetchuser, async (req, res) => {
         }
         let deleted = await Post.deleteOne({ _id: post._id });
         success = true;
-        return res.status(200).json({ success })
+        return res.status(200).json({ success });
     } catch (error) {
-        return res.status(500).json({ error: "Internal server error." })
+        return res.status(500).json({ error: "Internal server error." });
     }
 })
 
 // ROUTE 5
-// /api/posts/comment
+// /api/posts/comment: PUT, auth required
 router.put("/comment", fetchuser, async (req, res) => {
     try {
         let success = false;
         let comment = req.body.comment;
-        // set the postedBy user to current logged in user
-        comment.postedBy = req.user.id;
+        // set the comment user to current logged in user
+        comment.user = req.user.id;
 
         Post.findByIdAndUpdate(
             req.body.postId,
@@ -122,15 +121,48 @@ router.put("/comment", fetchuser, async (req, res) => {
             } else {
                 // query is successful
                 success = true;
-                return res.json(success, result);
+                return res.status(200).json(success, result);
             }
         })
     } catch (error) {
-        return res.status(500).json({ error: "Internal server error." })
+        return res.status(500).json({ error: "Internal server error." });
     }
 })
 
 // ROUTE 6
-// /api/posts/uncomment
-
+// /api/posts/uncomment/:id/:commentID : DELETE, auth required
+router.delete("/uncomment/:id/:commentID", fetchuser, async (req, res) => {
+    try {
+        // success
+        let success = false;
+        // find the post by the id
+        let postID = req.params.id;
+        let post = await Post.findById(postID);
+        // see if the post exists
+        if (!post) {
+            return res.status(400).json({ success, error: "Invalid request." });
+        }
+        // pull out the comment with the id
+        let commentID = req.params.commentID;
+        let comment = post.comments.find(comment => comment.id === commentID);
+        // see if the comment exists
+        if (!comment) {
+            return res.status(400).json({ success, error: "Invalid request." });
+        }
+        // see if the user matches
+        if (comment.user.toString() !== req.user.id) {
+            return res.status(400).json({ success, error: "Invalid request." });
+        }
+        // get remove index
+        let removeIdx = post.comments.map(comment => comment.user.toString()).indexOf(req.user.id);
+        // delete the comment from the post's arr
+        post.comments.splice(removeIdx, 1);
+        // save the post
+        post.save();
+        success = true;
+        return res.status(200).json({ success });
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error." });
+    }
+})
 module.exports = router;

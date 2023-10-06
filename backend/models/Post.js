@@ -22,6 +22,10 @@ const PostSchema = new Schema({
     },
     comments: [
         {
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: "user"
+            },
             text: {
                 type: String,
                 required: true
@@ -29,10 +33,6 @@ const PostSchema = new Schema({
             date: {
                 type: Date,
                 default: Date.now
-            },
-            postedBy: {
-                type: Schema.Types.ObjectId,
-                ref: "user"
             }
         }
     ]
