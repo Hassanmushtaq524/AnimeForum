@@ -41,7 +41,9 @@ router.get("/fetchAll", async (req, res) => {
     try {
         let success = false;
         // returns the array of
-        let postsArr = await Post.find({});
+        let postsArr = await Post.find({})
+        .populate("user", "_id name")
+        .exec();
         success = true;
         return res.status(200).json({ success, postsArr });
     } catch (error) {
@@ -109,21 +111,16 @@ router.put("/comment", fetchuser, async (req, res) => {
         // set the comment user to current logged in user
         comment.user = req.user.id;
 
-        Post.findByIdAndUpdate(
+        let post = await Post.findByIdAndUpdate(
             req.body.postId,
             { $push: { comments: comment } },
             { new: true }
         )
-        .exec((err, result) => {
-            // find any errors
-            if (err) {
-                return res.status(400).json({ success, error: err});
-            } else {
-                // query is successful
-                success = true;
-                return res.status(200).json(success, result);
-            }
-        })
+        if (!post) {
+            return res.status(400).json({success, error: "Invalid request."})
+        }
+        success = true;
+        return res.status(200).json({success, post});
     } catch (error) {
         return res.status(500).json({ error: "Internal server error." });
     }
