@@ -1,5 +1,6 @@
 const express = require("express");
 const Post = require("../models/Post");
+const User = require("../models/User");
 const router = express.Router();
 const fetchuser = require("../middleware/fetchuser");
 const { body, validationResult } = require('express-validator');
@@ -40,10 +41,8 @@ router.post("/create", fetchuser,
 router.get("/fetchAll", async (req, res) => {
     try {
         let success = false;
-        // returns the array of
-        let postsArr = await Post.find({})
-        .populate("user", "_id name")
-        .exec();
+        // returns the array of all posts
+        let postsArr = await Post.find({}).populate("comments.user", "_id name").populate("user", "_id name");
         success = true;
         return res.status(200).json({ success, postsArr });
     } catch (error) {
@@ -109,13 +108,14 @@ router.put("/comment", fetchuser, async (req, res) => {
         let success = false;
         let comment = req.body.comment;
         // set the comment user to current logged in user
-        comment.user = req.user.id;
-
+        comment.user = await User.findById(req.user.id, { "name": 1, "_id": 1});
         let post = await Post.findByIdAndUpdate(
             req.body.postId,
             { $push: { comments: comment } },
             { new: true }
-        )
+        );
+        // .populate("comments.user", "_id name").populate("user", "_id name")
+        // if post is not found, return an error
         if (!post) {
             return res.status(400).json({success, error: "Invalid request."})
         }
@@ -155,7 +155,8 @@ router.delete("/uncomment/:id/:commentID", fetchuser, async (req, res) => {
         // delete the comment from the post's arr
         post.comments.splice(removeIdx, 1);
         // save the post
-        post.save();
+        await post.save();
+        // successful request
         success = true;
         return res.status(200).json({ success });
     } catch (error) {
