@@ -1,13 +1,11 @@
 .App {
   text-align: center;
-  
+  font-family: ProximaNova-Regular;
 }
 html {
   height: 100%;
 }
-body {
-  background: linear-gradient(rgb(255, 255, 255), rgb(255, 221, 159));
-}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -41,4 +39,21 @@ body {
   to {
     transform: rotate(360deg);
   }
+}
+
+@font-face {
+  font-family: ProximaNova-Regular;
+  src: url("./assets/proximanova_regular.ttf");
+}
+@font-face {
+  font-family: ProximaNova-Light;
+  src: url("./assets/proximanova_light.otf") format('opentype');
+}
+@font-face {
+  font-family: Mariposa-Medium;
+  src: url("./assets/Mariposa\ Sans\ Std\ Medium.otf") format('opentype');
+}
+@font-face {
+  font-family: Mariposa-Bold;
+  src: url("./assets/Mariposa\ Sans\ Std\ Bold.otf") format('opentype');
 }
