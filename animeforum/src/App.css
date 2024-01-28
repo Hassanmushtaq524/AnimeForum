@@ -1,3 +1,7 @@
+:root {
+  --primary-color: rgb(234, 166, 126);
+}
+
 .App {
   text-align: center;
   font-family: ProximaNova-Regular;

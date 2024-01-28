@@ -1,0 +1,28 @@
+.navbar {
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px 10px 40px;
+    position: fixed;
+    background-color: var(--primary-color);
+}
+
+.nav-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 20vw;
+}
+
+.nav-link {
+    font-size: 1em;
+    font-family: Mariposa-Bold;
+    color: white;
+}
+
+.logo {
+    font-family: Mariposa-Bold;
+    font-size: 2em;
+    color: white;
+}
