@@ -1,11 +1,12 @@
 import React from 'react';
-
+// components
+import Posts from '../../components/Posts/Posts.js';
+// CSS
+import "./Home.css";
 const Home = () => {
     return (
-        <div className="container home">
-            <h3 className="heading">
-                Posts
-            </h3>
+        <div className="home">
+            <Posts/>
         </div>
     )
 }

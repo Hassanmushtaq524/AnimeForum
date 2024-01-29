@@ -1,5 +1,10 @@
 :root {
   --primary-color: rgb(234, 166, 126);
+  --secondary-color: rgb(255, 226, 210);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Mariposa-Bold;
 }
 
 .App {
