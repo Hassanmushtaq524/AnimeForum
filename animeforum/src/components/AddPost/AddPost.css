@@ -1,0 +1,24 @@
+#addPosts {
+    width: 50vw;
+    padding: 40px;
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, .13), 0 1px 2px 0 rgba(0, 0, 0, .11);
+    z-index: 2;
+}
+
+.addPosts-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+}
+
+.btn-submit {
+    background-color: var(--primary-color);
+    color: white;
+    font-family: var(--heading-font);
+    width: 10vw;
+}
+
+.btn-submit:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}

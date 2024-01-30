@@ -1,17 +1,24 @@
 // CSS
-import './App.css';
+import "./App.css";
 // components
-import Navbar from './components/Navbar/Navbar';
-import Home from './pages/Home/Home';
-import { Routes, Route } from "react-router-dom"; 
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./pages/Home/Home";
+import { Routes, Route } from "react-router-dom";
 function App() {
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <Routes>
-        <Route index element={<Home/>}/>
-        <Route path="/home" element={<Home/>}/>
+        <Route index element={<Home />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
+      {/* Waves */}
+      <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
+        <div class="cube"></div>
     </>
   );
 }
