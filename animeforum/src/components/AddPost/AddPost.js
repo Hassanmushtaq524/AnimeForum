@@ -13,6 +13,7 @@ export default function AddPost() {
     }
   return (
     <div id="addPosts">
+        <h4>Add a new post</h4>
         <form className="addPosts-form" ref={formRef} onSubmit={handleSubmit}>
             <div className="form-group">
                 <input type="text" name="text" className="form-control" placeholder="Enter Title"/>

@@ -7,18 +7,12 @@ import { Routes, Route } from "react-router-dom";
 function App() {
   return (
     <>
-      <Navbar />
-      <Routes>
-        <Route index element={<Home />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
-      {/* Waves */}
-      <div class="cube"></div>
-        <div class="cube"></div>
-        <div class="cube"></div>
-        <div class="cube"></div>
-        <div class="cube"></div>
-        <div class="cube"></div>
+        <Navbar />
+        <Routes>
+            <Route index element={<Home />} />
+            <Route path="/home" element={<Home />} />
+        </Routes>
+    
     </>
   );
 }

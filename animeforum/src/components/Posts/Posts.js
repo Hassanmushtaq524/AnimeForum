@@ -6,7 +6,7 @@ import "./Posts.css";
 import Post from "../Post/Post.js";
 
 export default function Posts() {
-   
+//    temporary data
     const postsData = {
             "success": true,
             "postsArr": [
@@ -63,6 +63,97 @@ export default function Posts() {
                 "date": "2024-01-27T20:31:49.516Z",
                 "comments": [],
                 "__v": 1
+              },
+              {
+                "_id": "65b568356220b12a912d26d5",
+                "user": {
+                  "_id": "6520a71f2c454536364cac54",
+                  "name": "Hassan"
+                },
+                "title": "second post",
+                "description": "by me!",
+                "tag": "epic",
+                "date": "2024-01-27T20:31:49.516Z",
+                "comments": [],
+                "__v": 1
+              },
+              {
+                "_id": "65b568356220b12a912d26d5",
+                "user": {
+                  "_id": "6520a71f2c454536364cac54",
+                  "name": "Hassan"
+                },
+                "title": "second post",
+                "description": "by me!",
+                "tag": "epic",
+                "date": "2024-01-27T20:31:49.516Z",
+                "comments": [],
+                "__v": 1
+              },
+              {
+                "_id": "65b568356220b12a912d26d5",
+                "user": {
+                  "_id": "6520a71f2c454536364cac54",
+                  "name": "Hassan"
+                },
+                "title": "second post",
+                "description": "by me!",
+                "tag": "epic",
+                "date": "2024-01-27T20:31:49.516Z",
+                "comments": [],
+                "__v": 1
+              },
+              {
+                "_id": "65b568356220b12a912d26d5",
+                "user": {
+                  "_id": "6520a71f2c454536364cac54",
+                  "name": "Hassan"
+                },
+                "title": "second post",
+                "description": "by me!",
+                "tag": "epic",
+                "date": "2024-01-27T20:31:49.516Z",
+                "comments": [],
+                "__v": 1
+              },
+              {
+                "_id": "65b568356220b12a912d26d5",
+                "user": {
+                  "_id": "6520a71f2c454536364cac54",
+                  "name": "Hassan"
+                },
+                "title": "second post",
+                "description": "by me!",
+                "tag": "epic",
+                "date": "2024-01-27T20:31:49.516Z",
+                "comments": [],
+                "__v": 1
+              },
+              {
+                "_id": "65b568356220b12a912d26d5",
+                "user": {
+                  "_id": "6520a71f2c454536364cac54",
+                  "name": "Hassan"
+                },
+                "title": "second post",
+                "description": "by me!",
+                "tag": "epic",
+                "date": "2024-01-27T20:31:49.516Z",
+                "comments": [],
+                "__v": 1
+              },
+              {
+                "_id": "65b568356220b12a912d26d5",
+                "user": {
+                  "_id": "6520a71f2c454536364cac54",
+                  "name": "Hassan"
+                },
+                "title": "second post",
+                "description": "by me!",
+                "tag": "epic",
+                "date": "2024-01-27T20:31:49.516Z",
+                "comments": [],
+                "__v": 1
               }
             ]
         }
@@ -72,11 +163,16 @@ export default function Posts() {
   return (
     <>
     <div id="posts">
-        {postsArr.map((post) => {
-            return (
-                <Post title={post.title} description={post.description} userName={post.user.name} date={post.date}/>
-            )
-        })}
+        <div className="posts-heading">
+            <h2>Posts</h2>
+        </div>
+        <div className="all-posts">
+            {postsArr.map((post) => {
+                return (
+                    <Post title={post.title} description={post.description} userName={post.user.name} date={post.date}/>
+                )
+            })}`
+        </div>
     </div>
     </>
   )
