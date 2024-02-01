@@ -17,7 +17,15 @@ const UserSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
-    }
+    },
+    likes: [
+        {
+            post: {
+                type: Schema.Types.ObjectId,
+                ref: 'post' 
+            }
+        }
+    ]
 })
 const User = mongoose.model("user", UserSchema)
 module.exports = User;

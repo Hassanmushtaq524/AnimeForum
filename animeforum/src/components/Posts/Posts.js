@@ -13,6 +13,7 @@ export default function Posts() {
         fetchAllPosts();
         // console.log(posts);
         // eslint-disable-next-line
+        console.log(posts.likes);
     }, []);
     return (
         <>
@@ -23,7 +24,7 @@ export default function Posts() {
             <div className="all-posts">
                 {posts.map((post) => {
                     return (
-                        <Post title={post.title} description={post.description} userName={post.user.name} date={post.date}/>
+                        <Post title={post.title} description={post.description} userName={post.user.name} date={post.date} likes={post.likes}/>
                     )
                 })}
             </div>

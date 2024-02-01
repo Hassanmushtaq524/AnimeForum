@@ -42,7 +42,7 @@ router.get("/fetchAll", async (req, res) => {
     try {
         let success = false;
         // returns the array of all posts
-        let postsArr = await Post.find({}).populate("comments.user", "_id name").populate("user", "_id name");
+        let postsArr = await Post.find({}).populate("comments.user", "_id name").populate("likes.user", "_id name").populate("user", "_id name");
         success = true;
         return res.status(200).json({ success, postsArr });
     } catch (error) {
@@ -163,4 +163,59 @@ router.delete("/uncomment/:id/:commentID", fetchuser, async (req, res) => {
         return res.status(500).json({ error: "Internal server error." });
     }
 })
+
+// ROUTE 7
+// /api/posts/like/:id: PUT, auth required
+router.put("/like/:id", fetchuser, async (req, res) => {
+    try {
+        let success = false;
+        const user = req.user; 
+        const postId = req.params.id;
+        // find post of the id
+        let post = await Post.findById(postId);
+        if (!post) {
+            return res.status(400).json({ success, error: "Invalid request."});
+        }
+        // check if already liked
+        if (post.likes.filter((like) => like.user.toString() === user.id).length > 0) {
+            return res.status(400).json({ success, error: "Post already liked."} );
+        }
+        post.likes.push({ user: user.id })
+        await post.save();
+        success = true;
+        return res.status(200).json({ success, post })
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error."});
+    }
+})
+// ROUTE 8
+// /api/posts/unlike/:id: DELETE, auth required
+router.delete("/unlike/:id", fetchuser, async (req, res) => {
+    try {
+        let success = false;
+        let user = req.user;
+        // find posts
+        let post = await Post.findById(req.params.id);
+        // return error if post doesnt exist
+        if (!post) {
+            return res.status(400).json({ success, error: "Invalid request." });
+        }
+        // check if post.likes has index with user.id 
+        if (post.likes.filter((like) => like.user.toString() === user.id).length === 0) {
+            return res.status(400).json ({ success, error: "Post not liked" });
+        }
+        // remove the like otherwise
+        let removeIdx = post.likes.map((like) => like.user.toString()).indexOf(user.id);
+        post.likes.splice(removeIdx, 1);
+        await post.save();
+
+        success = true;
+        return res.status(200).json({ success, post });
+
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error."});
+    }
+})
+
+
 module.exports = router;
