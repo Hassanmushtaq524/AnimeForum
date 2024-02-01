@@ -6,4 +6,5 @@
     padding: 10vh 60px 20px 60px;
     gap: 0.5vw;
     border: 2px solid red;
+    flex-wrap: wrap;
 }

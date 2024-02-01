@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 10vw 10px 10vw;
+  padding: 10px 6vw 10px 6vw;
   position: fixed;
   z-index: 100;
   background: linear-gradient(-45deg, #ee7752, #e73c7e);
