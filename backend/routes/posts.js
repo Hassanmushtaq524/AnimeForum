@@ -180,7 +180,12 @@ router.put("/like/:id", fetchuser, async (req, res) => {
         if (post.likes.filter((like) => like.user.toString() === user.id).length > 0) {
             return res.status(400).json({ success, error: "Post already liked."} );
         }
+        // push the like
         post.likes.push({ user: user.id })
+        // push it into user data
+        await User.findByIdAndUpdate(user.id, 
+            { $push: { likes: { post: post.id }}}, 
+            { $new: true });
         await post.save();
         success = true;
         return res.status(200).json({ success, post })
@@ -193,7 +198,11 @@ router.put("/like/:id", fetchuser, async (req, res) => {
 router.delete("/unlike/:id", fetchuser, async (req, res) => {
     try {
         let success = false;
-        let user = req.user;
+        // get the user from the database 
+        let user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(400).json({ success, error: "Invalid request."});
+        }
         // find posts
         let post = await Post.findById(req.params.id);
         // return error if post doesnt exist
@@ -201,13 +210,17 @@ router.delete("/unlike/:id", fetchuser, async (req, res) => {
             return res.status(400).json({ success, error: "Invalid request." });
         }
         // check if post.likes has index with user.id 
-        if (post.likes.filter((like) => like.user.toString() === user.id).length === 0) {
+        if (post.likes.filter((like) => like.user.toString() === user.id.toString()).length === 0) {
             return res.status(400).json ({ success, error: "Post not liked" });
         }
-        // remove the like otherwise
-        let removeIdx = post.likes.map((like) => like.user.toString()).indexOf(user.id);
+        // remove the like otherwise from posts
+        let removeIdx = post.likes.map((like) => like.user.toString()).indexOf(user.id.toString());
         post.likes.splice(removeIdx, 1);
         await post.save();
+        // remove the post from user.likes  
+        removeIdx = user.likes.map((like) => like.post.toString()).indexOf(post.id.toString());
+        user.likes.splice(removeIdx, 1);
+        await user.save();
 
         success = true;
         return res.status(200).json({ success, post });
@@ -216,6 +229,9 @@ router.delete("/unlike/:id", fetchuser, async (req, res) => {
         return res.status(500).json({ error: "Internal server error."});
     }
 })
+
+// ROUTE 9
+// router.get("/liked", fetchuser, async (req, res))
 
 
 module.exports = router;
