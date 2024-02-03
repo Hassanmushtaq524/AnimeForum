@@ -9,7 +9,6 @@ export default function AddPost() {
         newPost.text = formRef.current.text.value;
         newPost.description = formRef.current.description.value;
         newPost.tag = formRef.current.tag.value;
-        console.log(newPost);
     }
   return (
     <div id="addPosts">

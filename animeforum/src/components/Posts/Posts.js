@@ -11,9 +11,7 @@ export default function Posts() {
 
     useEffect(() => {
         fetchAllPosts();
-        // console.log(posts);
-        // eslint-disable-next-line
-        console.log(posts.likes);
+        console.log(posts)
     }, []);
     return (
         <>
