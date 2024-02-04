@@ -1,51 +1,47 @@
-import React from 'react'
+
 // CSS
 import "./LoginForm.css";
 // components
-import { useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../PostsContext/AuthContext';
 
 export default function LoginForm() {
+    // AuthContext
+    const { auth, loginUser } = useContext(AuthContext);
+    // references the form data
     const loginRef = useRef(null);
+    // to navigate once logged in
     const navigate = useNavigate();
-    const [message, setMessage] = useState(null);
+    // error error state
+    const [error, setError] = useState(null);
 
+
+    useEffect(() => {
+
+        if (auth) {
+            navigate("/");
+        }
+        // we want to re-render every time the auth state or the error state changes
+    }, [auth, error])
+
+    // handling the submission of data
     const handleSubmit = async (e) => {
         e.preventDefault();
         const loginInfo = {};
 
         if (!loginRef.current.email.value) {
-            setMessage("show");
-        }
-        if (!loginRef.current.password.value) {
-            setMessage("show");
-        }
-
-        loginInfo.email = loginRef.current.email.value;
-        loginInfo.password = loginRef.current.password.value;
-        
-        const url = "http://localhost:5000/api/auth/login";
-
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json",
-            },
-            body: JSON.stringify(loginInfo)
-        });
-
-        // check response 
-        if (response.ok) {
-            const data = await response.json();
-            if (data) {
-                localStorage.setItem("token", data.jwtToken);
-                setMessage(null);
-                navigate("/");
-            }
+            setError(true);
         } else {
-            // display alert
-            setMessage("show");
-        }
+            if (!loginRef.current.password.value) {
+                setError(true);
+            } else {
+                loginInfo.email = loginRef.current.email.value;
+                loginInfo.password = loginRef.current.password.value;
+                // send the login information to log in
+                loginUser(loginInfo, setError);
+            }
+        } 
 
     }
 
@@ -61,7 +57,7 @@ export default function LoginForm() {
                 </div>
                 <button type="submit" className="btn btn-submit">Login</button>
             </form>
-            <p style={(message === "show") ? {visibility: "visible", color: "red"} : {visibility: "hidden"}}>Please enter correct values.</p>
+            <p style={(error) ? {visibility: "visible", color: "red"} : {visibility: "hidden"}}>Please enter correct values.</p>
         </div>
     )
 }

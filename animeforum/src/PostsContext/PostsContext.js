@@ -6,32 +6,41 @@ export const PostsContext = createContext(null);
 export default function PostsProvider({ children }) {
     // store our posts array
     const [posts, setPosts] = useState([]);
+
     // the url
     const host = "http://localhost:5000/api";
+
     // our jwt token that we will pass to the backend
     const jwtToken = localStorage.getItem("token");
-    console.log(jwtToken)
+
     // Get all posts
     const fetchAllPosts = async () => {
+
         // posts/fetchall endpoint
         const url = `${host}/posts/fetchAll`;
-        const response = await fetch(url, {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json",
-            },
-        });
-        // check for status ok
-        if (response.ok) {
-            const json = await response.json();
-            console.log(json.postsArr);
-            if (!json.error) {
-                setPosts(json.postsArr);
+
+        try {
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json",
+                },
+            });
+    
+            // check for status ok
+            if (response.ok) {
+                const json = await response.json();
+                if (!json.error) {
+                    setPosts(json.postsArr);
+                }
+            } else {
+                setPosts([]);
             }
+        } catch (error) {
+            setPosts([]);
         }
+
     };
-
-
 
     return (
         <PostsContext.Provider value={{ posts, fetchAllPosts }}>

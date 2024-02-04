@@ -1,22 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Navbar.css"
 
 // components
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../PostsContext/AuthContext";
 
 const Navbar = () => {
+    // AuthContext
+    const { auth, logoutUser } = useContext(AuthContext);
+
+    // handle logout functionality
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        logoutUser();
     }
 
     return (
         <>
-        <div key={localStorage.getItem("token")} className="navbar">
+        <div className="navbar">
             <span className="logo">AnimeForum!</span>
             <div className="nav-items">
                 <Link className="nav-link" to={"/"}>Home</Link>
                 <Link className="nav-link" to={"/"}>My Posts</Link>
-                { localStorage.getItem("token") ? 
+                { auth ? 
                 <Link onClick={handleLogout} className="nav-link" to={"/login"}>Logout</Link> : <Link className="nav-link" to={"/login"}>Login</Link>}
                 
             </div>
