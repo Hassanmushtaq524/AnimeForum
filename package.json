@@ -15,5 +15,8 @@
     "url": "https://github.com/Hassanmushtaq524/ANIforum/issues"
   },
   "homepage": "https://github.com/Hassanmushtaq524/ANIforum#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "jwt-decode": "^4.0.0"
+  }
 }

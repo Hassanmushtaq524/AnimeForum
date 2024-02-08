@@ -1,26 +1,43 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 // CSS
 import "./SignupForm.css";
+import { useAuth } from '../../PostsContext/AuthContext';
 
 export default function SignupForm() {
+    // context states
+    const { auth, signupUser} = useAuth();
+    // error state
     const [error, setError] = useState("");
+    // useRef for the form
     const signupRef = useRef();
+    // navigate
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (auth) {
+            navigate("/");
+        }
+    }, [auth])
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if (!signupRef.current.name.value || !signupRef.current.email.value || !signupRef.current.password.value || !signupRef.current.conPassword.value) {
+            // all fields must be filled
             setError("Fields cannot be empty");
         } else {
-
+            // check if confirm password and password match
             if (signupRef.current.password.value  === signupRef.current.conPassword.value) {
+                // prepare the data
                 const signupInfo = {
                     name: signupRef.current.name.value,
                     email: signupRef.current.email.value,
                     password: signupRef.current.password.value
                 };
-                setError("");
-                console.log(signupInfo);
+                // sign the user up
+                signupUser(signupInfo, setError);
+
             } else {
                 setError("Passwords do not match");
             }
