@@ -29,13 +29,13 @@ router.post("/signup",
                 return res.status(400).json({ success: success, error: "This email is already in use." })
             }
             // create secure password
-            let salt = await bcrypt.genSalt(10);
             let secPass = await bcrypt.hash(req.body.password, 10);
             // create user 
             user = await User.create({
                 name: req.body.name,
                 email: req.body.email,
-                password: secPass
+                password: secPass,
+                likes: []
             })
             // create the data 
             let data = {
@@ -46,7 +46,7 @@ router.post("/signup",
             // send the token
             const jwtToken = jwt.sign(data, jwtSecret);
             success = true;
-            return res.status(200).json({ success, jwtToken });
+            return res.status(200).json({ success, jwtToken,  user: { name: user.name, email: user.email, likes: user.likes } });
         } catch (error) {
             return res.status(500).json({ error: "Internal server error." })
         }
@@ -86,25 +86,11 @@ router.post("/login",
             let jwtToken = jwt.sign(data, jwtSecret);
             // send the token
             success = true;
-            return res.status(200).json({ success, jwtToken: jwtToken });
+            return res.status(200).json({ success, jwtToken, user: { name: user.name, email: user.email, likes: user.likes } });
         } catch (error) {
             return res.status(500).json({ error: "Internal server error." });
         }
     })
 
-// ROUTE 3
-// /api/auth/getuser: GET, auth required
-router.get("/getuser", fetchuser, async (req, res) => {
-    try {
-        // get the user from the ID
-        let success = false;
-        const user = await User.findById(req.user.id).select("-password");
-        // successfully return the user
-        success = true;
-        return res.status(200).json({ success, user })
-    } catch (error) {
-        return res.status(500).json({ error: "Internal server error." });
-    }
-})
 
 module.exports = router;

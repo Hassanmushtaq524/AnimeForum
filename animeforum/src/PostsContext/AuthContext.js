@@ -4,6 +4,8 @@ export const AuthContext = createContext(null);
 
 export default function AuthProvider ({ children }) {
     const [auth, setAuth] = useState(false);
+    const [user, setUser] = useState({});
+
 
     // logs the user in and updates the authentication state
     const loginUser = async (loginInfo, setError) => {
@@ -25,6 +27,7 @@ export default function AuthProvider ({ children }) {
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem("token", data.jwtToken);
+                setUser(data.user);
                 setAuth(true);
                 // set the error
                 setError(false);
@@ -47,14 +50,23 @@ export default function AuthProvider ({ children }) {
     const logoutUser = () => {
         localStorage.removeItem("token");
         setAuth(false);
+        setUser({});
     }
 
 
     return (
-        <AuthContext.Provider value={ { auth, loginUser, logoutUser } }>
+        <AuthContext.Provider value={ { user, auth, loginUser, logoutUser } }>
             { children }
         </AuthContext.Provider>
     )
 
 }
 
+export function useAuth() {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("AuthContext cannot be a null value");
+    } else {
+        return context;
+    }
+}

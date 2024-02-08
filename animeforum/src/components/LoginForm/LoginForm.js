@@ -2,13 +2,13 @@
 // CSS
 import "./LoginForm.css";
 // components
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../PostsContext/AuthContext';
+import { useAuth } from '../../PostsContext/AuthContext';
 
 export default function LoginForm() {
     // AuthContext
-    const { auth, loginUser } = useContext(AuthContext);
+    const { auth, loginUser } = useAuth();
     // references the form data
     const loginRef = useRef(null);
     // to navigate once logged in
@@ -46,18 +46,16 @@ export default function LoginForm() {
     }
 
     return (
-        <div className="login">
+        <form className="login-form" ref={loginRef} onSubmit={handleSubmit}>
             <h4>Login</h4>
-            <form className="login-form" ref={loginRef} onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <input type="text" name="email" className="form-control" placeholder="Enter Email"/>
-                </div>
-                <div className="form-group">
-                    <input type="password" name="password" className="form-control" placeholder="Enter Password"/>
-                </div>
-                <button type="submit" className="btn btn-submit">Login</button>
-            </form>
+            <div className="form-group">
+                <input type="email" name="email" className="form-control" placeholder="Enter Email"/>
+            </div>
+            <div className="form-group">
+                <input type="password" name="password" className="form-control" placeholder="Enter Password"/>
+            </div>
+            <button type="submit" className="btn btn-submit">Login</button>
             <p style={(error) ? {visibility: "visible", color: "red"} : {visibility: "hidden"}}>Please enter correct values.</p>
-        </div>
+        </form>
     )
 }

@@ -167,6 +167,7 @@ router.delete("/uncomment/:id/:commentID", fetchuser, async (req, res) => {
 // ROUTE 7
 // /api/posts/like/:id: PUT, auth required
 router.put("/like/:id", fetchuser, async (req, res) => {
+
     try {
         let success = false;
         const user = req.user; 
@@ -192,10 +193,12 @@ router.put("/like/:id", fetchuser, async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error: "Internal server error."});
     }
+
 })
 // ROUTE 8
 // /api/posts/unlike/:id: DELETE, auth required
 router.delete("/unlike/:id", fetchuser, async (req, res) => {
+
     try {
         let success = false;
         // get the user from the database 
@@ -221,17 +224,14 @@ router.delete("/unlike/:id", fetchuser, async (req, res) => {
         removeIdx = user.likes.map((like) => like.post.toString()).indexOf(post.id.toString());
         user.likes.splice(removeIdx, 1);
         await user.save();
-
         success = true;
         return res.status(200).json({ success, post });
 
     } catch (error) {
         return res.status(500).json({ error: "Internal server error."});
     }
-})
 
-// ROUTE 9
-// router.get("/liked", fetchuser, async (req, res))
+})
 
 
 module.exports = router;
