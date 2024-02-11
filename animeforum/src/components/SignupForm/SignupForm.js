@@ -21,8 +21,7 @@ export default function SignupForm() {
     }, [auth])
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-
+        e.preventDefault(); 
         if (!signupRef.current.name.value || !signupRef.current.email.value || !signupRef.current.password.value || !signupRef.current.conPassword.value) {
             // all fields must be filled
             setError("Fields cannot be empty");
@@ -52,15 +51,19 @@ export default function SignupForm() {
         <form className="signup-form" ref={signupRef} onSubmit={handleSubmit}>
             <h4>Signup</h4>
             <div className="form-group">
+                <label><h6>Full name</h6></label>
                 <input type="text" name="name" className="form-control" placeholder="Enter Name"/>
             </div>
             <div className="form-group">
+                <label><h6>Email</h6></label>
                 <input type="email" name="email" className="form-control" placeholder="Enter Email"/>
             </div>
             <div className="form-group">
+                <label><h6>Password</h6></label>
                 <input type="password" name="password" className="form-control" placeholder="Enter Password"/>
             </div>
             <div className="form-group">
+                <label><h6>Confirm Password</h6></label>
                 <input type="password" name="conPassword" className="form-control" placeholder="Confirm Password"/>
             </div>
             <button type="submit" className="btn btn-submit">signup</button>

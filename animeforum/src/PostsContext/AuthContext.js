@@ -14,7 +14,6 @@ export default function AuthProvider ({ children }) {
             setAuth(true);
             // get the returned user
             setUser(JSON.parse(localStorage.getItem("user")));
-            console.log(localStorage.getItem("user"));
         } else {
             setAuth(false);
             setUser({});
@@ -107,6 +106,8 @@ export default function AuthProvider ({ children }) {
     const logoutUser = () => {
         // remove token
         localStorage.removeItem("token");
+        // remove user
+        localStorage.removeItem("user");
         // set auth to false
         setAuth(false);
         // remove user

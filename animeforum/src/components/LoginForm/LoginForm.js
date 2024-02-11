@@ -49,13 +49,15 @@ export default function LoginForm() {
         <form className="login-form" ref={loginRef} onSubmit={handleSubmit}>
             <h4>Login</h4>
             <div className="form-group">
+                <label><h6>Email</h6></label>
                 <input type="email" name="email" className="form-control" placeholder="Enter Email"/>
             </div>
             <div className="form-group">
+                <label><h6>Password</h6></label>
                 <input type="password" name="password" className="form-control" placeholder="Enter Password"/>
             </div>
             <button type="submit" className="btn btn-submit">Login</button>
-            <p style={(error) ? {visibility: "visible", color: "red"} : {visibility: "hidden"}}>Please enter correct values.</p>
+            <p style={(error) ? {visibility: "visible", color: "red"} : {visibility: "hidden"}}>Invalid username or password</p>
         </form>
     )
 }

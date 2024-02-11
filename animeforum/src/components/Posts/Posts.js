@@ -11,18 +11,23 @@ export default function Posts() {
 
     useEffect(() => {
         fetchAllPosts();
-        console.log(posts)
-    }, []);
+    },[]);
+
     return (
         <>
         <div id="posts">
             <div className="posts-heading">
-                <h2>Posts</h2>
+                <h2>Recent posts</h2>
             </div>
             <div className="all-posts">
-                {posts.map((post) => {
+                {posts.map((val, i, postsArr) => {
                     return (
-                        <Post title={post.title} description={post.description} userName={post.user.name} date={post.date} likes={post.likes}/>
+                        <Post key={postsArr[postsArr.length - 1 - i]._id} 
+                        title={postsArr[postsArr.length - 1 - i].title} 
+                        description={postsArr[postsArr.length - 1 - i].description} 
+                        userName={postsArr[postsArr.length - 1 - i].user.name} 
+                        date={postsArr[postsArr.length - 1 - i].date} 
+                        likes={postsArr[postsArr.length - 1 - i].likes}/>
                     )
                 })}
             </div>

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // components
 import Posts from '../../components/Posts/Posts.js';
 import SideBar from '../../components/SideBar/SideBar.js';
-
 // CSS
 import "./Home.css";
 const Home = () => {
+    
     return (
         <>
         <div className="home">

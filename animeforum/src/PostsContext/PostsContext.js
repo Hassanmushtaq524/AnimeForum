@@ -42,8 +42,42 @@ export default function PostsProvider({ children }) {
 
     };
 
+    // Adding posts 
+    const addPosts = async (newPost, setError) => {
+
+        try {
+
+            const url = `${host}/posts/create`;
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
+                    "auth-token": jwtToken
+                },
+                body: JSON.stringify(newPost)
+            })
+
+            if (response.ok) {
+                const data = await response.json();
+                // add the post
+                setPosts(posts.concat(data.post));
+                // set error to false
+                setError(false);
+            } else {
+                // set error to false
+                setError(true);
+            }
+
+        } catch (error) {
+            // set error to false
+            setError(true);
+        }
+        
+    }
+
+
     return (
-        <PostsContext.Provider value={{ posts, fetchAllPosts }}>
+        <PostsContext.Provider value={{ posts, fetchAllPosts, addPosts }}>
         {children}
         </PostsContext.Provider>
     );
