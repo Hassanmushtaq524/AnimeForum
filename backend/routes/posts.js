@@ -5,7 +5,6 @@ const router = express.Router();
 const fetchuser = require("../middleware/fetchuser");
 const { body, validationResult } = require('express-validator');
 
-// ROUTE 1
 // /api/posts/create: POST, auth required
 router.post("/create", fetchuser,
     [body("title").isLength({ min: 3 }),
@@ -28,6 +27,12 @@ router.post("/create", fetchuser,
                 description,
                 tag
             });
+            // add the post to user's my posts
+            let updatedUser = await User.findByIdAndUpdate(
+                user.id,
+                { $push: { posts: post } },
+                { new: true }
+            );
             // return the post
             success = true;
             return res.status(200).json({ success, post })
@@ -36,8 +41,7 @@ router.post("/create", fetchuser,
         }
     })
 
-// ROUTE 2
-// /api/post/fetch: GET
+// /api/post/fetchAll: GET
 router.get("/fetchAll", async (req, res) => {
     try {
         let success = false;
@@ -50,7 +54,33 @@ router.get("/fetchAll", async (req, res) => {
     }
 })
 
-// ROUTE 3
+// /api/post/fetchMyPosts: GET
+
+router.get("/fetchMyPosts", fetchuser, async (req, res) => {
+    try {
+        
+        // get the user id, fetch the user, and populate the posts array
+        let user = await User.findById(req.user.id);
+
+        // create an array of promises for fetching and populating posts
+        let postsPromises = user.posts.map(async (post) => {
+            let populatedPost = await Post.findById(post.id)
+                .populate("comments.user", "_id name")
+                .populate("likes.user", "_id name")
+                .populate("user", "_id name");
+            return populatedPost;
+        });
+
+        // wait for all promises to resolve
+        let postsArr = await Promise.all(postsPromises);
+
+        return res.status(200).json({ success: true, posts: postsArr });
+
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error." });
+    }
+})
+
 // /api/post/update/:id : PUT, auth required
 router.put("/update/:id", fetchuser, async (req, res) => {
     try {
@@ -79,7 +109,6 @@ router.put("/update/:id", fetchuser, async (req, res) => {
     }
 })
 
-// ROUTE 4
 // /api/posts/delete: DELETE, auth required
 router.delete("/delete/:id", fetchuser, async (req, res) => {
     try {
@@ -101,7 +130,6 @@ router.delete("/delete/:id", fetchuser, async (req, res) => {
     }
 })
 
-// ROUTE 5
 // /api/posts/comment: PUT, auth required
 router.put("/comment", fetchuser, async (req, res) => {
     try {
@@ -114,7 +142,6 @@ router.put("/comment", fetchuser, async (req, res) => {
             { $push: { comments: comment } },
             { new: true }
         );
-        // .populate("comments.user", "_id name").populate("user", "_id name")
         // if post is not found, return an error
         if (!post) {
             return res.status(400).json({success, error: "Invalid request."})
@@ -126,7 +153,7 @@ router.put("/comment", fetchuser, async (req, res) => {
     }
 })
 
-// ROUTE 6
+
 // /api/posts/uncomment/:id/:commentID : DELETE, auth required
 router.delete("/uncomment/:id/:commentID", fetchuser, async (req, res) => {
     try {
@@ -164,7 +191,6 @@ router.delete("/uncomment/:id/:commentID", fetchuser, async (req, res) => {
     }
 })
 
-// ROUTE 7
 // /api/posts/like/:id: PUT, auth required
 router.put("/like/:id", fetchuser, async (req, res) => {
 
@@ -195,7 +221,7 @@ router.put("/like/:id", fetchuser, async (req, res) => {
     }
 
 })
-// ROUTE 8
+
 // /api/posts/unlike/:id: DELETE, auth required
 router.delete("/unlike/:id", fetchuser, async (req, res) => {
 

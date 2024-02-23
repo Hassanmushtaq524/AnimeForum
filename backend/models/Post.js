@@ -24,26 +24,26 @@ const PostSchema = new Schema({
         {
             user: {
                 type: Schema.Types.ObjectId,
-                ref: 'user',
+                ref: 'user'
             },
         },
     ],
     comments: [
         {
-        text: {
-            type: String,
-            required: true,
-        },
-        date: {
-            type: Date,
-            default: Date.now,
-        },
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: 'user',
-        },
-        },
-    ],
+            text: {
+                type: String,
+                required: true
+            },
+            date: {
+                type: Date,
+                default: Date.now,
+            },
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: 'user'
+            },
+        }
+    ]
     });
 const Post = mongoose.model("post", PostSchema);
 module.exports = Post;

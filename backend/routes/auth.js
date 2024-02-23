@@ -11,7 +11,7 @@ const jwtSecret = "bradley";
 // ROUTE 1
 // /api/auth/signup: POST
 router.post("/signup",
-    [body("name").isLength({ min: 3 }),
+    [body("name").isLength({ min: 3, max: 20 }),
     body("email").isEmail(),
     body("password").isLength({ min: 5 })],
     async (req, res) => {

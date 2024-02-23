@@ -4,6 +4,11 @@
     width: 100%;
     padding: 10px 20px;
     background-color: white;
+    transition: all 0.2s ease-in-out;
+}
+
+.post:hover {
+    border: 5px solid var(--primary-color);
 }
 
 .bottom-wrapper {

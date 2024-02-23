@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react'
 // CSS
 import "./AddPost.css";
 import { usePostsContext } from '../../PostsContext/PostsContext';
+
+
 export default function AddPost() {
     // posts context
     const {addPosts} = usePostsContext();

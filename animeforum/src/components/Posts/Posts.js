@@ -26,7 +26,7 @@ export default function Posts() {
                         title={postsArr[postsArr.length - 1 - i].title} 
                         description={postsArr[postsArr.length - 1 - i].description} 
                         userName={postsArr[postsArr.length - 1 - i].user.name} 
-                        date={postsArr[postsArr.length - 1 - i].date} 
+                        date={postsArr[postsArr.length - 1 - i].date.slice(0, 10)} 
                         likes={postsArr[postsArr.length - 1 - i].likes}/>
                     )
                 })}

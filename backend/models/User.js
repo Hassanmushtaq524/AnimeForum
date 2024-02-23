@@ -18,6 +18,14 @@ const UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    posts: [
+        {
+            post: {
+                type: Schema.Types.ObjectId,
+                ref: 'post'
+            } 
+        }
+    ],
     likes: [
         {
             post: {
