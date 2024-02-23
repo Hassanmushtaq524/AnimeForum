@@ -42,6 +42,33 @@ export default function PostsProvider({ children }) {
 
     };
 
+    // Get user's posts
+    const fetchMyPosts = async () => {
+        // the url
+        const host = "http://localhost:5000/api";
+        // posts/fetchMyPosts endpoint
+        const url = `${host}/posts/fetchMyPosts`;
+        
+        try {
+            let response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json",
+                    "auth-token": localStorage.getItem("token")
+                }
+            })
+            if (response.ok) {
+                let data = await response.json();
+                setPosts(data.posts)
+            } else {
+                setPosts([]);
+            }
+        } catch (error) {
+        
+        }
+    }
+    
+
     // Adding posts 
     const addPosts = async (newPost, setError) => {
 
@@ -77,7 +104,7 @@ export default function PostsProvider({ children }) {
 
 
     return (
-        <PostsContext.Provider value={{ posts, fetchAllPosts, addPosts }}>
+        <PostsContext.Provider value={{ posts, fetchAllPosts, addPosts, fetchMyPosts }}>
         {children}
         </PostsContext.Provider>
     );
