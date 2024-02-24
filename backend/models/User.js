@@ -18,7 +18,7 @@ const UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    posts: [
+    myPosts: [
         {
             post: {
                 type: Schema.Types.ObjectId,

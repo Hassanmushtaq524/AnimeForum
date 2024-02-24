@@ -28,15 +28,17 @@ router.post("/create", fetchuser,
                 tag
             });
             // add the post to user's my posts
-            let updatedUser = await User.findByIdAndUpdate(
+            await User.findByIdAndUpdate(
                 user.id,
-                { $push: { posts: post } },
+                { $push: { myPosts: { post: post.id }}},
                 { new: true }
             );
+            
             // return the post
             success = true;
             return res.status(200).json({ success, post })
         } catch (error) {
+            console.log(error);
             return res.status(500).json({ error: "Internal server error." });
         }
     })
@@ -54,28 +56,47 @@ router.get("/fetchAll", async (req, res) => {
     }
 })
 
-// /api/post/fetchMyPosts: GET
-
+// /api/post/fetchMyPosts: GET, auth required
 router.get("/fetchMyPosts", fetchuser, async (req, res) => {
     try {
         
         // get the user id, fetch the user, and populate the posts array
-        let user = await User.findById(req.user.id);
-
-        // create an array of promises for fetching and populating posts
-        let postsPromises = user.posts.map(async (post) => {
-            let populatedPost = await Post.findById(post.id)
-                .populate("comments.user", "_id name")
-                .populate("likes.user", "_id name")
-                .populate("user", "_id name");
-            return populatedPost;
+        let user = await User.findById(req.user.id)
+        .populate({
+            path: 'myPosts.post',
+            populate: {
+                path: 'user likes.user comments.user',
+                select: '_id name'
+            },
+            options: {
+                arrayFilters: [{ 'element.post': { $exists: true } }]
+            }
         });
 
-        // wait for all promises to resolve
-        let postsArr = await Promise.all(postsPromises);
+        return res.status(200).json({ success: true, posts: user.myPosts });
 
-        return res.status(200).json({ success: true, posts: postsArr });
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error." });
+    }
+})
 
+// /api/post/fetchLikedPosts: GET, auth required
+router.get("/fetchLikedPosts", fetchuser, async (req, res) => {
+    try {
+        
+        let user = await User.findById(req.user.id)
+        .populate({
+            path: 'likes.post',
+            populate: {
+                path: 'user likes.user comments.user',
+                select: '_id name'
+            },
+            options: {
+                arrayFilters: [{ 'element.post': { $exists: true } }]
+            }
+        });
+
+        return res.status(200).json({ success: true, posts: user.likes });
     } catch (error) {
         return res.status(500).json({ error: "Internal server error." });
     }
@@ -112,20 +133,33 @@ router.put("/update/:id", fetchuser, async (req, res) => {
 // /api/posts/delete: DELETE, auth required
 router.delete("/delete/:id", fetchuser, async (req, res) => {
     try {
-        let success = false;
+
         // find the post to delete
         let post = await Post.findById(req.params.id)
         if (!post) {
-            return res.status(400).json({ success, error: "Invalid request." });
+            return res.status(400).json({ success: false , error: "Invalid request." });
         }
         // check if the user is the current user
         if (req.user.id !== post.user.toString()) {
-            return res.status(400).json({ success, error: "Invalid request." });
+            return res.status(400).json({ success: false , error: "Invalid request." });
         }
-        let deleted = await Post.deleteOne({ _id: post._id });
-        success = true;
-        return res.status(200).json({ success });
+
+        // The post needs to be removed from User's myPosts
+        await User.findByIdAndUpdate(req.user.id,
+            { $pull: { myPosts: { post: post.id }}});
+         
+        // Remove the post reference from the likes array of every user
+        await User.updateMany(
+            { 'likes.post': post.id }, // Filter users who liked the deleted post
+            { $pull: { likes: { post: post.id } } }, // Pull the post reference from likes array
+            { multi: true } // Update multiple documents
+        )
+        // Post is deleted
+        await Post.deleteOne({ _id: post._id });
+
+        return res.status(200).json({ success: true });
     } catch (error) {
+        console.log
         return res.status(500).json({ error: "Internal server error." });
     }
 })
