@@ -59,15 +59,46 @@ export default function PostsProvider({ children }) {
             })
             if (response.ok) {
                 let data = await response.json();
-                setPosts(data.posts)
+                setPosts(data.posts.map((el) => {
+                    return el.post
+                }));
             } else {
                 setPosts([]);
             }
         } catch (error) {
-        
+            setPosts([]);
+            console.log(error);
         }
     }
     
+    // Get user's liked posts
+    const fetchLikedPosts = async () => {
+        // the url
+        const host = "http://localhost:5000/api";
+        // posts/fetchMyPosts endpoint
+        const url = `${host}/posts/fetchLikedPosts`;
+        
+        try {
+            let response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json",
+                    "auth-token": localStorage.getItem("token")
+                }
+            })
+            if (response.ok) {
+                let data = await response.json();
+                console.log(data.posts);
+                setPosts(data.posts);
+            } else {
+                setPosts([]);
+            }
+        } catch (error) {
+            setPosts([]);
+            console.log(error);
+        }
+
+    }
 
     // Adding posts 
     const addPosts = async (newPost, setError) => {
@@ -102,9 +133,35 @@ export default function PostsProvider({ children }) {
         
     }
 
+    // Like post
+    const likePost = async (id) => {
+        
+        try {
+            
+            const url = `${host}/posts/like/${id}`;
+
+            const response = await fetch(url, {
+                method: "PUT",
+                headers: {
+                    "Content-type": "application/json",
+                    "auth-token": jwtToken
+                },
+            })  
+
+            if (!response.ok) {
+                console.log("error liking");
+            }
+
+
+        } catch (error) {
+            console.log(error);
+        }
+    
+    }
+
 
     return (
-        <PostsContext.Provider value={{ posts, fetchAllPosts, addPosts, fetchMyPosts }}>
+        <PostsContext.Provider value={{ posts, fetchAllPosts, addPosts, fetchMyPosts, fetchLikedPosts, likePost }}>
         {children}
         </PostsContext.Provider>
     );

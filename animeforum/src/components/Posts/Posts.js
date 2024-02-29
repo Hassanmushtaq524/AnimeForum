@@ -22,12 +22,13 @@ export default function Posts({posts, fetchFunction, title}) {
                 { posts.length ? 
                     posts.map((val, i, postsArr) => {
                         return (
-                            <Post key={postsArr[postsArr.length - 1 - i]._id} 
-                            title={postsArr[postsArr.length - 1 - i].title} 
-                            description={postsArr[postsArr.length - 1 - i].description} 
-                            userName={postsArr[postsArr.length - 1 - i].user.name} 
-                            date={postsArr[postsArr.length - 1 - i].date.slice(0, 10)} 
-                            likes={postsArr[postsArr.length - 1 - i].likes}/>
+                            <Post key={postsArr[postsArr.length - 1 - i]._id}
+                            postId = {postsArr[postsArr.length - 1 - i]._id} 
+                            title = {postsArr[postsArr.length - 1 - i].title} 
+                            description = {postsArr[postsArr.length - 1 - i].description} 
+                            userName = {postsArr[postsArr.length - 1 - i].user.name} 
+                            date = {postsArr[postsArr.length - 1 - i].date.slice(0, 10)} 
+                            likes = {postsArr[postsArr.length - 1 - i].likes}/>
                         )
                     })
                 :

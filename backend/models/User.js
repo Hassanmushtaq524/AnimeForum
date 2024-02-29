@@ -1,9 +1,17 @@
 const mongoose = require("mongoose");
 const {Schema} = mongoose;
 const UserSchema = new Schema({
-    name: {
+    firstName: {
         type: String,
-        required: true
+        required: true,
+        min: 2,
+        max: 30
+    },
+    lastName: {
+        type: String,
+        required: true,
+        min: 2,
+        max: 30
     },
     email: {
         type: String,
@@ -12,28 +20,18 @@ const UserSchema = new Schema({
     }, 
     password: {
         type: String,
-        required: true
+        required: true,
+        min: 5,
+        max: 30
+    },
+    picturePath: {
+        type: String,
+        default: ""
     },
     date: {
         type: Date,
         default: Date.now
-    },
-    myPosts: [
-        {
-            post: {
-                type: Schema.Types.ObjectId,
-                ref: 'post'
-            } 
-        }
-    ],
-    likes: [
-        {
-            post: {
-                type: Schema.Types.ObjectId,
-                ref: 'post' 
-            }
-        }
-    ]
+    }
 })
 const User = mongoose.model("user", UserSchema)
 module.exports = User;

@@ -13,7 +13,7 @@ export default function Profile() {
     // select state
     const [selected, setSelected] = useState("My Posts");
     // posts context
-    const { posts, fetchMyPosts } = usePostsContext();
+    const { posts, fetchMyPosts, fetchLikedPosts } = usePostsContext();
     // auth context 
     const { auth, logoutUser } = useAuth();
     // navigate
@@ -41,7 +41,7 @@ export default function Profile() {
                 selected === "My Posts" ? 
                 <Posts posts={posts} fetchFunction={fetchMyPosts} title={selected}/>
                 :
-                <Posts posts={posts} fetchFunction={fetchMyPosts} title={selected}/>
+                <Posts posts={posts} fetchFunction={fetchLikedPosts} title={selected}/>
             }
         </div>
     )

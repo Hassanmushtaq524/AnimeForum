@@ -16,9 +16,25 @@
     position: relative;
     width: 100%;
     justify-content: space-between;
+    align-items: center;
 }
 
 .bottom-wrapper > p {
     color: grey;
     font-size: 0.8em;
+}
+
+.heart-icon {
+    stroke: var(--primary-color);
+    fill: none;
+}
+
+.heart-icon:hover {
+    fill: var(--primary-color);
+    stroke: none;
+}
+
+.heart-icon-liked {
+    fill: var(--primary-color);
+    stroke: none;
 }
