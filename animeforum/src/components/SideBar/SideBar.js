@@ -7,8 +7,6 @@ export default function SideBar() {
   return (
     <div id="sideBar">
         <AddPost/>
-
-
     </div>
   )
 }

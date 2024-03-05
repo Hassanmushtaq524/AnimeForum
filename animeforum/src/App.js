@@ -9,6 +9,7 @@ import Signup from "./pages/Signup/Signup.js";
 import AuthProvider from "./PostsContext/AuthContext.js";
 import  PostsProvider  from "./PostsContext/PostsContext.js";
 import { Routes, Route } from "react-router-dom";
+
 function App() {
   return (
     <>

@@ -17,7 +17,7 @@ export default function PostsProvider({ children }) {
     const fetchAllPosts = async () => {
 
         // posts/fetchall endpoint
-        const url = `${host}/posts/fetchAll`;
+        const url = `${host}/posts/`;
 
         try {
             const response = await fetch(url, {
@@ -31,7 +31,10 @@ export default function PostsProvider({ children }) {
             if (response.ok) {
                 const json = await response.json();
                 if (!json.error) {
-                    setPosts(json.postsArr);
+                    const payload = {
+                        posts: json.postsArr
+                    }
+                    setPosts(payload);
                 }
             } else {
                 setPosts([]);

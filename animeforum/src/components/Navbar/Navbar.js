@@ -1,17 +1,18 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./Navbar.css"
 
 // components
 import { Link } from "react-router-dom";
-import { useAuth } from "../../PostsContext/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogout } from "../../state";
 
 const Navbar = () => {
-    // AuthContext
-    const { user, auth, logoutUser } = useAuth();
+    const dispatch = useDispatch();
+    const user = useSelector((globalState) => globalState.user);
 
     // handle logout functionality
     const handleLogout = () => {
-        logoutUser();
+        dispatch(setLogout());
     }
 
     return (
@@ -20,16 +21,15 @@ const Navbar = () => {
             <span className="logo">AnimeForum!</span>
             <div className="nav-items">
                 <Link className="nav-link" to={"/"}>Home</Link>
-                { auth ? 
+                { user ? 
                 <Link className="nav-link" to={"/profile"}>My Profile</Link> :
                 <></> }
-                { auth ? 
+                { user ? 
                 <Link onClick={handleLogout} className="nav-link" to={"/login"}>Logout</Link> : 
                 <Link className="nav-link" to={"/login"}>Login</Link>}
-                { auth ? 
-                 <></> : 
+                { !user && 
                 <Link className="nav-link" to={"/signup"}>Signup</Link>}
-                {user.name && <Link className="nav-link" to={"/"}>Welcome Back, {user.name}</Link>}
+                {user && <Link className="nav-link" to={"/"}>Welcome Back, {user.firstName}</Link>}
             </div>
         </div>
 
