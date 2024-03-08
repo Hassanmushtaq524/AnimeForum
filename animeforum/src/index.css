@@ -9,8 +9,104 @@ body {
   overflow: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* FONTS */
+@font-face {
+    font-family: Bungee;
+    src: url("./assets/Bungee-Regular.ttf");
 }
 
+@font-face {
+    font-family: Inter;
+    src: url("./assets/Inter-Regular.ttf");
+}
+  
+/* APP VARIABLES */
+:root {
+    --primary-color: #FF6852;
+    --secondary-color: #F5D7B8;
+    --dark-grey: #7f7f7f;
+    --light-grey: #d9d9d9;
+    --primary-font: Bungee;
+    --secondary-font: Inter;
+}
+
+
+/* TEXT STYLES */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--primary-font);
+}
+
+h1 {
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+h3 {
+    font-size: 16px;
+}
+
+p {
+    font-family: var(--secondary-font);
+    font-size: 16px;
+}
+
+.light-text {
+    color: var(--dark-grey);
+}
+
+
+/* BTN */
+.btn {
+    font-family: var(--primary-font);
+    font-size: 16px;
+    padding: 5px !important;
+    color: white;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (hover: hover) {
+    .btn:hover {
+        color: var(--secondary-color);
+        background-color: white;
+        border: 2px solid var(--secondary-color);
+    }
+}
+
+
+/* FORMS */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+}
+
+/* INPUT */
+textarea {
+    width: 100%;
+    height: 10vw;
+    max-height: 10vw;
+    border: 1px solid var(--secondary-color) !important;
+}
+
+input {
+    border: 1px solid var(--secondary-color) !important;
+    
+}
+
+/* BOX */
+.box {
+    border: 2px solid var(--secondary-color);
+    display: flex;
+    border-radius: 10px;
+}

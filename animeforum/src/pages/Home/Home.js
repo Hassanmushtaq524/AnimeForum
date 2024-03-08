@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 // components
 import Posts from '../../components/Posts/Posts.js';
-import SideBar from '../../components/SideBar/SideBar.js';
+import AddPosts from '../../components/AddPost/AddPost.js';
 // CSS
 import "./Home.css";
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,9 +44,9 @@ const Home = () => {
 
     return (
         <>
-        <div className="home">
-            <SideBar/>
-            <Posts/>
+        <div id="home">
+            <Posts title="All Posts"/>
+            <AddPosts/>
         </div>
         </>
     )

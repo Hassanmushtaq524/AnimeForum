@@ -33,7 +33,7 @@ exports.register = async (req, res) => {
         }
         // send the token
         const jwtToken = jwt.sign(data, process.env.JWT_SECRET);
-        return res.status(201).json({ success: true, jwtToken,  user: { firstName, lastName, email, picturePath } });
+        return res.status(201).json({ success: true, jwtToken,  user: { id: user.id, firstName, lastName, email, picturePath } });
 
     } catch (error) {
 
@@ -68,7 +68,7 @@ exports.login = async (req, res) => {
         let jwtToken = jwt.sign(data, process.env.JWT_SECRET);
         delete user.password;
         // send the token
-        return res.status(200).json({ success: true, jwtToken, user: { firstName: user.firstName, lastName: user.lastName, email: user.email, picturePath: user.picturePath }});
+        return res.status(200).json({ success: true, jwtToken, user: { id: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email, picturePath: user.picturePath }});
 
     } catch (error) {
 

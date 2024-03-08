@@ -1,29 +1,37 @@
 .navbar {
-  width: 100vw;
+  height: 100vh;
+  width: auto;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 6vw 10px 6vw;
+  padding: 20px;
   position: fixed;
-  z-index: 100;
-  background: linear-gradient(-45deg, #ee7752, #e73c7e);
-  background-size: 400% 400%;
+  z-index: 1;
+  background: linear-gradient(-45deg, var(--primary-color), #ff6149);
+  background-size: 1000%;
   animation: gradient 15s ease infinite;
 }
 
+
 .nav-items {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
-  gap: 5vw;
+  height: 70%;
+  width: 10vw;
+  text-align: center;
 }
 
 .nav-link {
-  font-size: 1em;
-  font-family: var(--heading-font);
+  font-family: var(--primary-font);
   color: white;
+  font-size: 14px;
+  width: auto;
 }
 
+/* ANIMATIONS */
 .nav-link:visited, .nav-link:hover {
     color: white;
 }
@@ -44,9 +52,7 @@
 }
 
 .logo {
-  font-family: var(--heading-font);
-  font-size: 2em;
-  color: white;
+    width: 8vw;
 }
 
 @keyframes gradient {

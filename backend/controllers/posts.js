@@ -33,7 +33,7 @@ exports.getPosts = async (req, res) => {
     try {
         
         // returns the array of all posts
-        let postsArr = await Post.find({}).populate("comments.user", "_id name").populate("likes.$*.user", "_id name").populate("user", "_id name");
+        let postsArr = await Post.find({}).populate("comments.user", "_id name").populate("likes.$*.user", "_id name").populate("user", "_id firstName");
         return res.status(200).json({ success: true, postsArr });
 
     } catch (error) {

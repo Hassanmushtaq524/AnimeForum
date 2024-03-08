@@ -1,10 +1,13 @@
 import React from "react";
+// CSS
 import "./Navbar.css"
-
 // components
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogout } from "../../state";
+// assets
+import logo from "../../assets/logo.svg";
+
 
 const Navbar = () => {
     const dispatch = useDispatch();
@@ -18,7 +21,7 @@ const Navbar = () => {
     return (
         <>
         <div className="navbar">
-            <span className="logo">AnimeForum!</span>
+            <img className="logo" src={logo} alt="Logo" />
             <div className="nav-items">
                 <Link className="nav-link" to={"/"}>Home</Link>
                 { user ? 

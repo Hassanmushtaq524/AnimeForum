@@ -49,7 +49,7 @@ export default function AddPost() {
                 <input type="text" onChange={handleChange} value={newPost.tag} name="tag" className="form-control" placeholder="Enter Tag"/>
             </div>
             <p style={(error) ? {visibility: "visible", color: "red"} : {visibility: "collapse"}}>Please enter a valid post</p>
-            <button type="submit" className="btn btn-submit">Submit</button>
+            <button type="submit" className="btn">Submit</button>
         </form>
     </div>
   )
