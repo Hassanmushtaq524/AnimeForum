@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 // components
 import Posts from '../../components/Posts/Posts.js';
 import AddPosts from '../../components/AddPost/AddPost.js';
+import Overlay from '../../components/Overlay/Overlay.js';
 // CSS
 import "./Home.css";
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,7 +47,9 @@ const Home = () => {
         <>
         <div id="home">
             <Posts title="All Posts"/>
-            <AddPosts/>
+            <Overlay btnText={"+ Add Post"}>
+                <AddPosts/>
+            </Overlay>
         </div>
         </>
     )
