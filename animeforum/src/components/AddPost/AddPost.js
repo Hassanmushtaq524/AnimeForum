@@ -1,17 +1,18 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 // CSS
 import "./AddPost.css";
-import { usePostsContext } from '../../PostsContext/PostsContext';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setPosts } from "../../state";
 
 export default function AddPost() {
     // posts context
-    const {addPosts} = usePostsContext();
+    const dispatch = useDispatch();
+    const postsArr  = useSelector((globalState) => globalState.posts);
+
     // error state
     const [error, setError] = useState(false);
-
     // newPost state
-    const [newPost, setNewPost] = useState({ title: "", description: "", tag: ""})
+    const [newPost, setNewPost] = useState({ title: "", description: "", tag: "", picturePath: ""})
     
     // handle submission
     const handleSubmit = (e) => {
@@ -21,11 +22,45 @@ export default function AddPost() {
             setError(true);
         } else {
             // add the posts
-            addPosts(newPost, setError);
-            setNewPost({title: "", description: "", tag: ""});
+            addPost(newPost);
+            setNewPost({title: "", description: "", tag: "", picturePath: ""});
         }
 
     }
+
+    // add the post
+    const addPost = async (newPost) => {
+        try {
+            // send the new post
+            let response = await fetch("http://localhost:5000/api/posts/", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
+                    "auth-token": localStorage.getItem("token")
+                },
+                body: JSON.stringify(newPost)
+            });
+
+            if (response.ok) {
+                const data = response.json();
+                // create payload
+                let payload = {
+                    posts: postsArr.concat(data.post)
+                }
+                // dispatch
+                dispatch(setPosts(payload))
+    
+                // set error
+                setError(false)
+            } else {
+                setError(true)
+            }
+
+        } catch (error) {
+            setError(true)
+        }
+    }
+
 
     // change newPost state
     const handleChange = (e) => {

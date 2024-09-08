@@ -5,7 +5,7 @@ import AddPosts from '../../components/AddPost/AddPost.js';
 import Overlay from '../../components/Overlay/Overlay.js';
 // CSS
 import "./Home.css";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setPosts } from '../../state/index.js';
 // Global State
 
@@ -46,10 +46,11 @@ const Home = () => {
     return (
         <>
         <div id="home">
-            <Posts title="All Posts"/>
-            <Overlay btnText={"+ Add Post"}>
-                <AddPosts/>
-            </Overlay>
+            <Posts />
+            {/* <Overlay btnText={"+ Add Post"}>
+                
+            </Overlay> */}
+            <AddPosts/>
         </div>
         </>
     )

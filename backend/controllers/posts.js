@@ -192,7 +192,7 @@ exports.removeComment = async (req, res) => {
     }
 }
 
-// ADD LIKE
+// ADD LIKE / TOGGLE LIKE
 exports.likePost = async (req, res) => {
 
     try {

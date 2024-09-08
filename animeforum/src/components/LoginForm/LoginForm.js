@@ -15,7 +15,7 @@ export default function LoginForm() {
     const loginRef = useRef(null);
     // to navigate once logged in
     const navigate = useNavigate();
-    // error error state
+    // error state
     const [error, setError] = useState(null);
 
 

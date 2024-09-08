@@ -12,3 +12,7 @@
     justify-content: center;
     align-items: center;
 }
+
+.btn-overlay {
+    width: 30%;
+}

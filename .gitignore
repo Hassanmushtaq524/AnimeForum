@@ -1,3 +1,4 @@
+@@ -1,39 +0,0 @@
 .DS_STORE
 /animeforum/node_modules
 /backend/node_modules
@@ -37,3 +38,4 @@ packages/react-devtools-extensions/.tempUserDataDir
 packages/react-devtools-inline/dist
 packages/react-devtools-shell/dist
 packages/react-devtools-timeline/dist
+No newline at end of file

@@ -7,15 +7,9 @@ import Post from "../Post/Post.js";
 // Global state
 import { useSelector } from 'react-redux';
 
-export default function Posts(props) {
-    // props
-    const { title } = props;
+export default function Posts() {
     // global state
     const posts = useSelector((globalState) => globalState.posts);
-
-    useEffect(() => {
-
-    }, [])
 
     return (
         <>

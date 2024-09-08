@@ -20,7 +20,7 @@ export default function Post(props) {
 
     // liking the current post
     const likePost = async () => {
-        
+
     }
 
 
