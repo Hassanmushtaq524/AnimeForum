@@ -5,7 +5,7 @@ import "./LoginForm.css";
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { setLogin } from "../../state";
+import { setLogin } from "../../features";
 
 export default function LoginForm() {
     // global state
@@ -16,11 +16,11 @@ export default function LoginForm() {
     // to navigate once logged in
     const navigate = useNavigate();
     // error state
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(false);
 
 
     useEffect(() => {
-
+        setError(false);
         if (user) {
             navigate("/");
         }
@@ -32,27 +32,26 @@ export default function LoginForm() {
         e.preventDefault();
         const loginInfo = {};
 
-        if (!loginRef.current.email.value) {
+        if (!loginRef.current.email.value || !loginInfo.current.password.value) {
             setError("Please use valid credentials");
-        } else {
-            if (!loginRef.current.password.value) {
-                setError("Please use valid credentials");
-            } else {
-                loginInfo.email = loginRef.current.email.value;
-                loginInfo.password = loginRef.current.password.value;
-                // send the login information to log in
-                loginUser(loginInfo);
-            }
         } 
-
+           
+        loginInfo.email = loginRef.current.email.value;
+        loginInfo.password = loginRef.current.password.value;
+        // send the login information to log in
+        loginUser(loginInfo);
     }
 
-    // logging in functionality
+    /**
+     * Login the user
+     * 
+     * @param {Object} loginInfo The login information
+     */
     const loginUser = async (loginInfo) => {
-
         // try logging in
         try {
-            const response = await fetch("http://localhost:5000/api/auth/login", {
+            const url = `${process.env.REACT_APP_API_URL}/auth/login`
+            const response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json",
@@ -60,26 +59,24 @@ export default function LoginForm() {
                 body: JSON.stringify(loginInfo)
             });
 
-            // check response
-            if (response.ok) {
-                const data = await response.json();
-                const payload = {
-                    user: data.user,
-                    token: data.jwtToken
-                }
-                dispatch(setLogin(payload));
-                // set the error
-                setError(null);
-                // navigate to home
-                navigate("/");
-            } else {
-                // set the error
-                setError(null);
+            if (!response.ok) {
+                setError(true);
+                return;
             }
-            
+
+            const data = await response.json();
+            const payload = {
+                user: data.user,
+                token: data.jwtToken
+            }
+            dispatch(setLogin(payload));
+            // set the error
+            setError(false);
+            // navigate to home
+            navigate("/");
         } catch (error) {
             // set the error
-            setError(null);
+            setError(true);
         }
         
     }
@@ -98,7 +95,7 @@ export default function LoginForm() {
                 <input type="password" name="password" className="form-control" placeholder="Enter Password"/>
             </div>
             <button type="submit" className="btn btn-submit">Login</button>
-            {error && <p style={{ color: "red" }}> Invalid credentials </p>}
+            {error && <p style={{ color: "red" }}> Invalid username/password</p>}
         </form>
     )
 }

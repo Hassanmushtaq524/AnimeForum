@@ -1,20 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const globalState = createSlice({
-    name: "globalState",
+const postSlice = createSlice({
+    name: "post",
     initialState: {
-        user: null,
         posts: []
     },
     reducers: {
-        setLogin: (state, action) => {
-            state.user = action.payload.user;
-            localStorage.setItem("token", action.payload.token);
-        },
-        setLogout: (state) => {
-            state.user = null;
-            localStorage.removeItem("token");
-        },
         setPosts: (state, action) => {
             state.posts = action.payload.posts;
         },
@@ -31,5 +22,6 @@ const globalState = createSlice({
     }
 })
 
-export const { setLogin, setLogout, setPosts } = globalState.actions;
-export default globalState.reducer;
+export const { setPosts, setPost } = postsSlice.actions;
+export default postSlice.reducer;
+

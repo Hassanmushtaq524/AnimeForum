@@ -4,7 +4,7 @@ import "./Navbar.css"
 // components
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogout } from "../../state";
+import { setLogout } from "../../features";
 // assets
 import logo from "../../assets/logo.svg";
 

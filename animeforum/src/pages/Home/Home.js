@@ -6,7 +6,7 @@ import Overlay from '../../components/Overlay/Overlay.js';
 // CSS
 import "./Home.css";
 import { useDispatch } from 'react-redux';
-import { setPosts } from '../../state/index.js';
+import { setPosts } from '../../features/index.js';
 // Global State
 
 const Home = () => {

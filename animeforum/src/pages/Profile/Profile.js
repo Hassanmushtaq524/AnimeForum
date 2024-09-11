@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import Posts from "../../components/Posts/Posts.js";
 // CSS
 import "./Profile.css"
-import { usePostsContext } from '../../PostsContext/PostsContext.js';
-import { useAuth } from '../../PostsContext/AuthContext.js';
+import { usePostsContext } from '../../hooks/usePosts.js';
+import { useAuth } from '../../hooks/AuthContext.js';
 import { useNavigate } from 'react-router-dom';
 
 

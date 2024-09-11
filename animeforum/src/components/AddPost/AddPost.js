@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 // CSS
 import "./AddPost.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { setPosts } from "../../state";
+import { setPosts } from "../../features";
 
 export default function AddPost() {
     // posts context
