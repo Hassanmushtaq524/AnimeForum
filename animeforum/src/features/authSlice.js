@@ -1,50 +1,107 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-//TODO: Implement, login and signup Async Thunks
-export const loginUser = createAsyncThunk('auth/loginUser', async (credentials) => {
-    return null;
+//TODO: review
+export const login = createAsyncThunk('auth/login', async (userInfo, { rejectWithValue }) => {
+    try {
+        const url = `${process.env.REACT_APP_API_URL}/auth/login`
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userInfo)
+        })
+
+        if (!response.ok) {
+            return rejectWithValue({ error: "Invalid credentials" })
+        }
+
+        const data = await response.json()
+
+        const payload = {
+            user: { ...data.user },
+            token: data.jwtToken
+        }
+        return payload
+    } catch (error) {
+        return rejectWithValue({ error: error.message || "Invalid credentials" })
+    }
 });
   
-export const logoutUser = createAsyncThunk('auth/signupUser', async () => {
-    return null;
+export const signup = createAsyncThunk('auth/signup', async (userInfo) => {
+    try {
+        const url = `${process.env.REACT_APP_API_URL}/auth/signup`
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userInfo)
+        })
+
+        if (!response.ok) {
+            return rejectWithValue({ error: "Invalid credentials" })
+        }
+
+        const data = await response.json()
+
+        const payload = {
+            user: { ...data.user },
+            token: data.jwtToken
+        }
+        return payload
+    } catch (error) {
+        return rejectWithValue({ error: error.message || "Invalid credentials" })
+    }
 });
 
 
-// TODO: implement login and signup reducers
+// TODO: review
 const authSlice = createSlice({
     name: "auth",
     initialState: {
         user: null,
-        token: null,
+        error: null,
         status: 'idle'
     },
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(loginUser.pending, (state) => {
+            .addCase(login.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(loginUser.fulfilled, (state, action) => {
+            .addCase(login.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.user = action.payload;
-                state.isLoggedIn = true;
+                state.user = action.payload.user;
+                state.error = null;
+                localStorage.setItem("token", action.payload.token)
             })
-            .addCase(loginUser.rejected, (state, action) => {
+            .addCase(login.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.error.message;
+                state.user = null;
+                state.error = action.payload.error;
+                if (localStorage.getItem("token")) { 
+                    localStorage.removeItem("token")
+                }
             })
-            .addCase(signupUser.pending, (state) => {
+            .addCase(signup.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(signupUser.fulfilled, (state, action) => {
+            .addCase(signup.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.user = action.payload;
-                state.isLoggedIn = true;
+                state.user = action.payload.user;
+                state.error = null;
+                localStorage.setItem("token", action.payload.token)
+                
             })
-            .addCase(signupUser.rejected, (state, action) => {
+            .addCase(signup.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.error.message;
+                state.user = null;
+                state.error = action.payload.error;
+                if (localStorage.getItem("token")) { 
+                    localStorage.removeItem("token")
+                }
             })
     }
 })
