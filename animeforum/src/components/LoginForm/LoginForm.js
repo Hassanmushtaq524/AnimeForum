@@ -3,46 +3,41 @@
 import "./LoginForm.css";
 // components
 import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../PostsContext/AuthContext';
+import { login, setError } from "../../features/authSlice";
 
 export default function LoginForm() {
-    // AuthContext
-    const { auth, loginUser } = useAuth();
+    const { user, status, error } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
     // references the form data
     const loginRef = useRef(null);
     // to navigate once logged in
     const navigate = useNavigate();
-    // error error state
-    const [error, setError] = useState(null);
-
 
     useEffect(() => {
-
-        if (auth) {
+        if (user) {
             navigate("/");
         }
-        // we want to re-render every time the auth state or the error state changes
-    }, [auth, error])
+    }, [])
 
     // handling the submission of data
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const loginInfo = {};
+        if (!loginRef.current.email.value || !loginRef.current.password.value) {
+            setError({ 
+                error: "Invalid credentials"
+            })
+            return;
+        }
 
-        if (!loginRef.current.email.value) {
-            setError(true);
-        } else {
-            if (!loginRef.current.password.value) {
-                setError(true);
-            } else {
-                loginInfo.email = loginRef.current.email.value;
-                loginInfo.password = loginRef.current.password.value;
-                // send the login information to log in
-                loginUser(loginInfo, setError);
-            }
-        } 
+        const loginInfo = {
+            email: loginRef.current.email.value,
+            password: loginRef.current.email.value
+        }
 
+        // send the login information to log in
+        dispatch(login(loginInfo));
     }
 
     return (

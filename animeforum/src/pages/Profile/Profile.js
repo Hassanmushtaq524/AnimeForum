@@ -3,28 +3,40 @@ import React, { useEffect, useState } from 'react'
 import Posts from "../../components/Posts/Posts.js";
 // CSS
 import "./Profile.css"
-import { usePostsContext } from '../../PostsContext/PostsContext.js';
-import { useAuth } from '../../PostsContext/AuthContext.js';
 import { useNavigate } from 'react-router-dom';
-
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMyPosts, fetchLikePosts } from '../../features/postSlice.js';
+import { logout } from '../../features/authSlice.js';
 
 export default function Profile() {
 
     // select state
-    const [selected, setSelected] = useState("My Posts");
-    // posts context
-    const { posts, fetchMyPosts, fetchLikedPosts } = usePostsContext();
-    // auth context 
-    const { auth, logoutUser } = useAuth();
+    const [selected, setSelected] = useState("My Posts");   
+    const { user, status, error } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
     // navigate
     let navigate = useNavigate();
     
     useEffect(() => {
-        if (!auth) {
+        if (!user) {
             navigate("/login");
+        } else {
+            switch (selected) {
+                case "My Posts":
+                    dispatch(fetchMyPosts());
+                    break;
+                case "Liked":
+                    dispatch(fetchLikePosts());
+                    break;
+            }
         }
 
-    }, [auth])
+    }, []);
+
+    const handleLogout = () => {
+        dispatch(logout());
+    }
 
     return (
         <div id="profile">
@@ -35,13 +47,13 @@ export default function Profile() {
                 <h3 
                  style={ selected === "Liked" ? {color: "#ee7752"} : {color: "black"} }
                  onClick={() => setSelected("Liked")}>Liked Posts</h3>
-                <h3 onClick={() => logoutUser()}>Logout</h3>
+                <h3 onClick={handleLogout}>Logout</h3>
             </div>
             {
                 selected === "My Posts" ? 
-                <Posts posts={posts} fetchFunction={fetchMyPosts} title={selected}/>
+                <Posts title={selected}/>
                 :
-                <Posts posts={posts} fetchFunction={fetchLikedPosts} title={selected}/>
+                <Posts title={selected}/>
             }
         </div>
     )

@@ -2,48 +2,48 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 // CSS
 import "./SignupForm.css";
-import { useAuth } from '../../PostsContext/AuthContext';
-
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import { signup, setError } from '../../features/authSlice';
 export default function SignupForm() {
-    // context states
-    const { auth, signupUser} = useAuth();
-    // error state
-    const [error, setError] = useState("");
+    const { user, status, error } = useSelector((state) => state.auth);
+
     // useRef for the form
     const signupRef = useRef();
     // navigate
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (auth) {
+        if (user) {
             navigate("/");
         }
-    }, [auth])
+    })
 
     const handleSubmit = (e) => {
         e.preventDefault(); 
         if (!signupRef.current.name.value || !signupRef.current.email.value || !signupRef.current.password.value || !signupRef.current.conPassword.value) {
             // all fields must be filled
-            setError("Fields cannot be empty");
-        } else {
-            // check if confirm password and password match
-            if (signupRef.current.password.value  === signupRef.current.conPassword.value) {
-                // prepare the data
-                const signupInfo = {
-                    name: signupRef.current.name.value,
-                    email: signupRef.current.email.value,
-                    password: signupRef.current.password.value
-                };
-                // sign the user up
-                signupUser(signupInfo, setError);
-
-            } else {
-                setError("Passwords do not match");
-            }
+            setError({
+                error: "Invalid credentials"
+            });
+            return ;
         }
-
-        
-        
+        // check if confirm password and password match
+        if (signupRef.current.password.value  === signupRef.current.conPassword.value) {
+            // prepare the data
+            const signupInfo = {
+                name: signupRef.current.name.value,
+                email: signupRef.current.email.value,
+                password: signupRef.current.password.value
+            };
+            // sign the user up
+            dispatch(signup(signupInfo));
+        } else {
+            setError({
+                error: "Confirm Password"
+            });
+        }
     }
 
 

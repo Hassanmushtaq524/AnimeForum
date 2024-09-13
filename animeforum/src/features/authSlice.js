@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import constants from "../constants/constants";
 
 //TODO: review
 export const login = createAsyncThunk('auth/login', async (userInfo, { rejectWithValue }) => {
@@ -20,7 +20,7 @@ export const login = createAsyncThunk('auth/login', async (userInfo, { rejectWit
         const data = await response.json()
 
         const payload = {
-            user: { ...data.user },
+            user: data.user,
             token: data.jwtToken
         }
         return payload
@@ -29,7 +29,7 @@ export const login = createAsyncThunk('auth/login', async (userInfo, { rejectWit
     }
 });
   
-export const signup = createAsyncThunk('auth/signup', async (userInfo) => {
+export const signup = createAsyncThunk('auth/signup', async (userInfo, { rejectWithValue }) => {
     try {
         const url = `${process.env.REACT_APP_API_URL}/auth/signup`
         const response = await fetch(url, {
@@ -47,7 +47,7 @@ export const signup = createAsyncThunk('auth/signup', async (userInfo) => {
         const data = await response.json()
 
         const payload = {
-            user: { ...data.user },
+            user: data.user,
             token: data.jwtToken
         }
         return payload
@@ -63,22 +63,31 @@ const authSlice = createSlice({
     initialState: {
         user: null,
         error: null,
-        status: 'idle'
+        status: constants.STATUS_IDLE
     },
-    reducers: {},
+    reducers: {
+        setError: (state, action) => {
+            state.error = action.payload.error;
+        },
+        logout: (state) => {
+            state.user = null;
+            state.error = null;
+            state.status = constants.STATUS_IDLE;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(login.pending, (state) => {
-                state.status = 'loading';
+                state.status = constants.STATUS_PENDING;
             })
             .addCase(login.fulfilled, (state, action) => {
-                state.status = 'succeeded';
+                state.status = constants.STATUS_SUCCESS;
                 state.user = action.payload.user;
                 state.error = null;
                 localStorage.setItem("token", action.payload.token)
             })
             .addCase(login.rejected, (state, action) => {
-                state.status = 'failed';
+                state.status = constants.STATUS_FAILED;
                 state.user = null;
                 state.error = action.payload.error;
                 if (localStorage.getItem("token")) { 
@@ -86,17 +95,17 @@ const authSlice = createSlice({
                 }
             })
             .addCase(signup.pending, (state) => {
-                state.status = 'loading';
+                state.status = constants.STATUS_PENDING;
             })
             .addCase(signup.fulfilled, (state, action) => {
-                state.status = 'succeeded';
+                state.status = constants.STATUS_SUCCESS;
                 state.user = action.payload.user;
                 state.error = null;
                 localStorage.setItem("token", action.payload.token)
                 
             })
             .addCase(signup.rejected, (state, action) => {
-                state.status = 'failed';
+                state.status = constants.STATUS_FAILED;
                 state.user = null;
                 state.error = action.payload.error;
                 if (localStorage.getItem("token")) { 
@@ -106,6 +115,7 @@ const authSlice = createSlice({
     }
 })
 
+export const { setError, logout } = authSlice.actions;
 
 export default authSlice.reducer;
 

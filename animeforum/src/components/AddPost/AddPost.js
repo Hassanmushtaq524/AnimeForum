@@ -1,12 +1,13 @@
 import React, { useRef, useState } from 'react'
 // CSS
 import "./AddPost.css";
-import { usePostsContext } from '../../PostsContext/PostsContext';
+import { useSelector } from 'react-redux';
 
+
+// TODO: Implement, fix
 
 export default function AddPost() {
-    // posts context
-    const {addPosts} = usePostsContext();
+
     // error state
     const [error, setError] = useState(false);
 
@@ -15,15 +16,17 @@ export default function AddPost() {
     
     // handle submission
     const handleSubmit = (e) => {
+        // TODO: implement
 
-        e.preventDefault();
-        if (!newPost.title || !newPost.description || !newPost.tag) {
-            setError(true);
-        } else {
-            // add the posts
-            addPosts(newPost, setError);
-            setNewPost({title: "", description: "", tag: ""});
-        }
+
+        // e.preventDefault();
+        // if (!newPost.title || !newPost.description || !newPost.tag) {
+        //     setError(true);
+        // } else {
+        //     // add the posts
+        //     addPosts(newPost, setError);
+        //     setNewPost({title: "", description: "", tag: ""});
+        // }
 
     }
 

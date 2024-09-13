@@ -3,15 +3,15 @@ import "./Navbar.css"
 
 // components
 import { Link } from "react-router-dom";
-import { useAuth } from "../../PostsContext/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../features/authSlice";
 
 const Navbar = () => {
-    // AuthContext
-    const { user, auth, logoutUser } = useAuth();
-
+    const { user } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
     // handle logout functionality
     const handleLogout = () => {
-        logoutUser();
+        dispatch(logout());
     }
 
     return (
@@ -20,16 +20,16 @@ const Navbar = () => {
             <span className="logo">AnimeForum!</span>
             <div className="nav-items">
                 <Link className="nav-link" to={"/"}>Home</Link>
-                { auth ? 
+                { user ? 
                 <Link className="nav-link" to={"/profile"}>My Profile</Link> :
                 <></> }
-                { auth ? 
+                { user ? 
                 <Link onClick={handleLogout} className="nav-link" to={"/login"}>Logout</Link> : 
                 <Link className="nav-link" to={"/login"}>Login</Link>}
-                { auth ? 
+                { user ? 
                  <></> : 
                 <Link className="nav-link" to={"/signup"}>Signup</Link>}
-                {user.name && <Link className="nav-link" to={"/"}>Welcome Back, {user.name}</Link>}
+                {user && <Link className="nav-link" to={"/"}>Welcome Back, {user.firstName}</Link>}
             </div>
         </div>
 
