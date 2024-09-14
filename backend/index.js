@@ -53,7 +53,7 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
 
     // connect if successful
     app.listen( port , () => {
-        console.log("listening on port " + process.env.PORT + "...");
+        console.log(`listening on port ${port}...`);
     })
 
 }).catch((err) => {

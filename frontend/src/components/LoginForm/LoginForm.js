@@ -19,6 +19,7 @@ export default function LoginForm() {
         if (user) {
             navigate("/");
         }
+        console.log(`here ${error}`)
     }, [])
 
     // handling the submission of data

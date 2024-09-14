@@ -67,7 +67,7 @@ const authSlice = createSlice({
     },
     reducers: {
         setError: (state, action) => {
-            state.error = action.payload.error;
+            state.error = action.payload?.error;
         },
         logout: (state) => {
             state.user = null;
@@ -79,6 +79,7 @@ const authSlice = createSlice({
         builder
             .addCase(login.pending, (state) => {
                 state.status = constants.STATUS_PENDING;
+                state.error = null;
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.status = constants.STATUS_SUCCESS;
@@ -96,6 +97,7 @@ const authSlice = createSlice({
             })
             .addCase(signup.pending, (state) => {
                 state.status = constants.STATUS_PENDING;
+                state.error = null;
             })
             .addCase(signup.fulfilled, (state, action) => {
                 state.status = constants.STATUS_SUCCESS;
