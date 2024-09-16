@@ -8,9 +8,9 @@ const jwt = require("jsonwebtoken");
  */
 exports.signup = async (req, res) => {
     try {
-        const { firstName, lastName, email, password } = req.body;
+        const { userName, firstName, lastName, email, password } = req.body;
 
-        if (!firstName || !lastName || !email || !password) {
+        if (!userName || !firstName || !lastName || !email || !password) {
             return res.status(400).json({ success: false, error: "An error occurred."});
         }
 
@@ -23,11 +23,12 @@ exports.signup = async (req, res) => {
         let secPass = await bcrypt.hash(password, 10);
         // create user 
         user = await User.create({
+            userName: userName,
             firstName: firstName,
             lastName: lastName,
             email: email,
             password: secPass,
-            picturePath: (req.file) ? `/assets/${req.file.filename}` : null
+            picturePath: (req.file) ? req.file.path : null
         })
         // create the data 
         let data = {
@@ -38,7 +39,7 @@ exports.signup = async (req, res) => {
         // send the token
         const token = jwt.sign(data, process.env.JWT_SECRET);
         delete user.password;
-        return res.status(201).json({ success: true, token,  user: { _id: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email, picturePath: user.picturePath } });
+        return res.status(201).json({ success: true, token,  user: { _id: user.id, userName: user.userName, firstName: user.firstName, lastName: user.lastName, email: user.email, picturePath: user.picturePath } });
     } catch (error) {
         return res.status(500).json({ error: "Internal server error." })
     }
@@ -69,28 +70,26 @@ exports.login = async (req, res) => {
         let token = jwt.sign(data, process.env.JWT_SECRET);
         delete user.password;
         // send the token
-        return res.status(200).json({ success: true, token, user: { _id: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email, picturePath: user.picturePath }});
+        return res.status(200).json({ success: true, token, user: { _id: user.id, userName: user.userName, firstName: user.firstName, lastName: user.lastName, email: user.email, picturePath: user.picturePath }});
     } catch (error) {
         return res.status(500).json({ error: "Internal server error." });
     }
-
 }
 
+
+/**
+ * getUser controller
+ */
 exports.getUser = async (req, res) => {
     try {
-        
         const { id } = req.params;
         // get the user
         let user = await User.findById(id).select("-password");
         if (!user) {
             return res.status(404).json({ success: false, error: "User not found."});
         }
-        console.log(user);
-        return res.status(200).json({ success: true, user: { firstName: user.firstName, lastName: user.lastName, picturePath: user.picturePath }});
-        
+        return res.status(200).json({ success: true, user: { _id: user._id, userName: user.userName, firstName: user.firstName, lastName: user.lastName, picturePath: user.picturePath }});
     } catch (error) {
-
         return res.status(500).json({ error: "Internal server error." });
-
     }
 }

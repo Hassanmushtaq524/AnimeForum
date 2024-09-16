@@ -1,87 +1,82 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
 
-// CREATE POST
+/**
+ * createPost controller
+ */
 exports.createPost = async (req, res) => {
     try {
-
         // get the authenticated user
         const user = req.user;
         // create the post
-        const { title, description, tag, picturePath } = req.body;
+        const { title, description, tag } = req.body;
         let post = await Post.create({
             user: user.id,
             title: title,
             description: description,
             tag: tag,
-            picturePath: picturePath,
+            picturePath: (req.file) ? req.file.path : null,
             likes: {},
             comments: []
         });
         // return the post
         return res.status(200).json({ success: true, post });
-
     } catch (error) {
-
         return res.status(500).json({ error: "Internal server error." });
-
     }
 }
 
-// READ ALL POSTS
+/**
+ * getPosts conroller
+ */
 exports.getPosts = async (req, res) => {
     try {
-        
         // returns the array of all posts
-        let postsArr = await Post.find({}).populate("comments.user", "_id name").populate("likes.$*.user", "_id name").populate("user", "_id name");
-        return res.status(200).json({ success: true, postsArr });
-
+        let posts = await Post.find({}).populate("comments.user", "_id name").populate("likes.$*.user", "_id name").populate("user", "_id name");
+        return res.status(200).json({ success: true, posts });
     } catch (error) {
-
         return res.status(500).json({ error: "Internal server error." });
-
     }
 }
 
-// READ USER POSTS
+/**
+ * getUserPosts controller
+ */
 exports.getUserPosts = async (req, res) => {
     try {
-        
         const { userId } = req.params; 
         // get the posts by the user id
-        let postsArr = await Post.find({ user: userId }).populate("comments.user", "_id name").populate("likes.user", "_id name").populate("user", "_id name");
-        return res.status(200).json({ success: true, postsArr });
-
+        let posts = await Post.find({ user: userId }).populate("comments.user", "_id name").populate("likes.user", "_id name").populate("user", "_id name");
+        return res.status(200).json({ success: true, posts });
     } catch (error) {
-
-        return res.status(500).json({ error: "Internal server error." });
-
+        // TODO: reset
+        return res.status(500).json({ error });
     }
 }
 
-// READ LIKED POSTS
+/**
+ * getLikedPosts controller
+ */
 exports.getLikedPosts = async (req, res) => {
     try {
-        
-        const userId = req.user.id;
+        const userId = req.params.userId;
         let posts = await Post.find({}).populate("comments.user", "_id name").populate("likes.$*.user", "_id name").populate("user", "_id name");
         // filter the liked posts
         posts = posts.filter((post) => {
             return post.likes.has(userId);
         })
-        return res.status(200).json({ success: true, postsArr: posts});
-    
+        return res.status(200).json({ success: true, posts });
     } catch (error) {
-    
-        return res.status(500).json({ error: "Internal server error." });
-    
+        // TODO: reset
+        return res.status(500).json({ error });
     }
 }
 
-// UPDATE POSTS
+/**
+ * updatePost controller
+ */
 exports.updatePost = async (req, res) => {
     try {
-
         // get the post by ID
         let post = await Post.findById(req.params.id);
         if (!post) {
@@ -92,29 +87,26 @@ exports.updatePost = async (req, res) => {
             return res.status(401).json({ success: false, error: "Invalid request." });
         }
         // make the new post
-        const { title, description, tag, picturePath } = req.body;
+        const { title, description, tag } = req.body;
         let newPost = {};
         if (title) newPost.title = title;
         if (description) newPost.description = description;
         if (tag) newPost.tag = tag;
-        if (picturePath) newPost.picturePath = picturePath;
         newPost.likes = post.likes;
         newPost.comments = post.comments;
         // update the post
         post = await Post.findByIdAndUpdate(req.params.id, { $set: newPost }, { new: true });
         return res.status(200).json({ success: true, post });
-
     } catch (error) {
-
         return res.status(500).json({ error: "Internal server error." });
-
     }
 }
 
-// DELETE POST
+/**
+ * deletePost controller
+ */
 exports.deletePost = async (req, res) => {
     try {
-
         // find the post to delete
         const postId = req.params.id 
         let post = await Post.findById(postId)
@@ -127,17 +119,16 @@ exports.deletePost = async (req, res) => {
         }
         await Post.findByIdAndDelete(postId);
         return res.status(200).json({ success: true });
-
     } catch (error) {
-        console.log
         return res.status(500).json({ error: "Internal server error." });
     }
 }
 
-// ADD COMMENT
+/**
+ * addComment controller
+ */
 exports.addComment = async (req, res) => {
     try {
-
         const { postId } = req.params;
         let comment = req.body.comment;
         // set the comment user to current logged in user
@@ -152,15 +143,15 @@ exports.addComment = async (req, res) => {
             return res.status(404).json({ success: false, error: "Invalid request." })
         }
         return res.status(200).json({ success: true, post});
-    
     } catch (error) {
-    
         return res.status(500).json({ error: "Internal server error." });
-    
     }
 }
 
-// REMOVE COMMENT
+
+/**
+ * removeComment controller
+ */
 exports.removeComment = async (req, res) => {
     try {
         // find the post by the id
@@ -192,11 +183,12 @@ exports.removeComment = async (req, res) => {
     }
 }
 
-// ADD LIKE
+
+/**
+ * likePost controller
+ */
 exports.likePost = async (req, res) => {
-
     try {
-
         const userId = req.user.id; 
         const { postId } = req.params;
         const post = await Post.findById(postId);
@@ -215,14 +207,9 @@ exports.likePost = async (req, res) => {
             { likes: post.likes },
             { new: true }
         );
-
         return res.status(200).json({ success: true , post: updatedPost });
-
     } catch (error) {
-
         return res.status(500).json({ error: "Internal server error."});
-
     }
-
 }
 

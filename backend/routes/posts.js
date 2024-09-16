@@ -4,25 +4,93 @@ const fetchuser = require("../middleware/fetchuser");
 const { getPosts, getUserPosts, updatePost, deletePost, getLikedPosts, addComment, removeComment, likePost } = require("../controllers/posts");
 
 
-// READ
-router.get("/liked", fetchuser, getLikedPosts);
-router.get("/:userId", getUserPosts);
+
+/**************************************
+ * POSTS
+**************************************/
+
+/**
+ * Gets posts made by a user
+ * 
+ * Method: GET
+*/
+router.get("/:userId/", getUserPosts);
+
+
+/**
+ * Fetches all the posts
+ * 
+ * Method: GET
+*/
 router.get("/", getPosts);
 
-// UPDATE
+
+/**
+ * Updates the post made by authenticated user
+ * 
+ * Method: PUT
+ * Content-type: application/json
+ * Authorization: required
+ * Body: { title, description, tag }
+*/
 router.put("/:id", fetchuser, updatePost);
 
-// DELETE
+
+/**
+ * Deletes the post made by authenticated user
+ * 
+ * Method: DELETE
+ * Authorization: required
+*/
 router.delete("/:id", fetchuser, deletePost);
 
-// COMMENT
+
+
+/**************************************
+ * COMMENTS
+**************************************/
+
+/**
+ * Adds a comment made by authenticated user to the post
+ *  
+ * Method: PUT
+ * Content-type: application/json
+ * Authorization: required
+ * Body: { text }
+*/
 router.put("/comment/:postId", fetchuser, addComment);
 
 
-// DELETE COMMENT
+/**
+ * Deletes the comment made by authenticated user
+ * 
+ * Method: DELETE
+ * Content-type: application/json
+ * Authorization: required
+*/
 router.delete("/uncomment/:postId/:commentId", fetchuser, removeComment)
 
-// TOGGLE LIKE
+
+
+/**************************************
+ * LIKES
+**************************************/
+
+/**
+ * Toggles like for a post
+ * 
+ * Method: PUT
+ * Authorization: required
+*/
 router.put("/like/:postId", fetchuser, likePost)
+
+
+/**
+ * Fetches the posts liked by user
+ * 
+ * Method: GET
+ */
+router.get("/:userId/liked", getLikedPosts);
+
 
 module.exports = router;

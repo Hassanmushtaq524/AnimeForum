@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
 const {Schema} = mongoose;
 const UserSchema = new Schema({
+    userName: {
+        type: String,
+        required: true,
+        min: 2,
+        max: 30
+    },
     firstName: {
         type: String,
         required: true,
@@ -26,7 +32,7 @@ const UserSchema = new Schema({
     },
     picturePath: {
         type: String,
-        default: ""
+        default: null
     },
     date: {
         type: Date,
