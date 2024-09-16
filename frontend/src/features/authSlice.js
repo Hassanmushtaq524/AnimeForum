@@ -2,6 +2,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import constants from "../constants/constants";
 
 //TODO: review
+
+/**
+ * Middleware to login the user
+ * 
+ * @returns payload to the reducer OR error
+ */
 export const login = createAsyncThunk('auth/login', async (userInfo, { rejectWithValue }) => {
     try {
         const url = `${process.env.REACT_APP_API_URL}/auth/login`
@@ -29,6 +35,12 @@ export const login = createAsyncThunk('auth/login', async (userInfo, { rejectWit
     }
 });
   
+
+/**
+ * Middleware to sign up the user
+ * 
+ * @returns payload to the reducer OR error
+ */
 export const signup = createAsyncThunk('auth/signup', async (userInfo, { rejectWithValue }) => {
     try {
         const url = `${process.env.REACT_APP_API_URL}/auth/signup`
@@ -41,7 +53,7 @@ export const signup = createAsyncThunk('auth/signup', async (userInfo, { rejectW
         })
 
         if (!response.ok) {
-            return rejectWithValue({ error: "Invalid credentials" })
+            return rejectWithValue({ error: "Invalid credentials" });
         }
 
         const data = await response.json()
@@ -52,7 +64,7 @@ export const signup = createAsyncThunk('auth/signup', async (userInfo, { rejectW
         }
         return payload
     } catch (error) {
-        return rejectWithValue({ error: error.message || "Invalid credentials" })
+        return rejectWithValue({ error: error.message || "Invalid credentials" });
     }
 });
 
@@ -63,15 +75,23 @@ const authSlice = createSlice({
     initialState: {
         user: null,
         error: null,
+        token: null,
         status: constants.STATUS_IDLE
     },
     reducers: {
+        resetState: (state) => {
+            state.user = null;
+            state.error = null;
+            state.token = null;
+            state.status = constants.STATUS_IDLE;
+        },
         setError: (state, action) => {
             state.error = action.payload?.error;
         },
         logout: (state) => {
             state.user = null;
             state.error = null;
+            state.token = null;
             state.status = constants.STATUS_IDLE;
         }
     },
@@ -84,16 +104,14 @@ const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.status = constants.STATUS_SUCCESS;
                 state.user = action.payload.user;
+                state.token = action.payload.token;
                 state.error = null;
-                localStorage.setItem("token", action.payload.token)
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = constants.STATUS_FAILED;
                 state.user = null;
+                state.token = null;
                 state.error = action.payload.error;
-                if (localStorage.getItem("token")) { 
-                    localStorage.removeItem("token")
-                }
             })
             .addCase(signup.pending, (state) => {
                 state.status = constants.STATUS_PENDING;
@@ -102,22 +120,19 @@ const authSlice = createSlice({
             .addCase(signup.fulfilled, (state, action) => {
                 state.status = constants.STATUS_SUCCESS;
                 state.user = action.payload.user;
+                state.token = action.payload.token;
                 state.error = null;
-                localStorage.setItem("token", action.payload.token)
-                
             })
             .addCase(signup.rejected, (state, action) => {
                 state.status = constants.STATUS_FAILED;
                 state.user = null;
+                state.token = null;
                 state.error = action.payload.error;
-                if (localStorage.getItem("token")) { 
-                    localStorage.removeItem("token")
-                }
             })
     }
 })
 
-export const { setError, logout } = authSlice.actions;
+export const { setError, logout, resetState } = authSlice.actions;
 
 export default authSlice.reducer;
 

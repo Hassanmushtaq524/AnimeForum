@@ -1,6 +1,8 @@
 .DS_STORE
-/animeforum/node_modules
+/frontend/node_modules
+frontend/.env
 /backend/node_modules
+/backend/.env
 scripts/flow/*/.flowconfig
 .flowconfig
 *~
@@ -24,7 +26,6 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
-
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build
 packages/react-devtools-extensions/chrome/*.crx

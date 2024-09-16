@@ -12,5 +12,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    volumes:
+      - ./backend:/usr/src/ap
     ports:
       - "13000:8080"

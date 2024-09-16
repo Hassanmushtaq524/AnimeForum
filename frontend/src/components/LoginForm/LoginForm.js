@@ -1,43 +1,62 @@
-
 // CSS
 import "./LoginForm.css";
 // components
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { login, setError } from "../../features/authSlice";
+import { login, setError, resetState } from "../../features/authSlice";
 
+
+
+/**
+ * The login form component (used in Login page)
+ */
 export default function LoginForm() {
+    /**
+     * Redux
+     */
     const { user, status, error } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
-    // references the form data
+
+    /**
+     * Hooks
+     */
     const loginRef = useRef(null);
-    // to navigate once logged in
     const navigate = useNavigate();
 
+
+    /**
+     * Go to home if already authenticated
+     */
     useEffect(() => {
         if (user) {
             navigate("/");
+        } else {
+            dispatch(resetState());
         }
-        console.log(`here ${error}`)
     }, [])
 
-    // handling the submission of data
+    /**
+     * Handle submission of data
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!loginRef.current.email.value || !loginRef.current.password.value) {
-            setError({ 
+            dispatch(setError({ 
                 error: "Invalid credentials"
-            })
+            }))
             return;
         }
 
         const loginInfo = {
             email: loginRef.current.email.value,
-            password: loginRef.current.email.value
+            password: loginRef.current.password.value
         }
 
-        // send the login information to log in
+        /**
+         * Dispatch the login action
+         */
         dispatch(login(loginInfo));
     }
 

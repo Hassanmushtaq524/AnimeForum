@@ -4,46 +4,71 @@ import { useNavigate } from 'react-router-dom';
 import "./SignupForm.css";
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { signup, setError } from '../../features/authSlice';
-export default function SignupForm() {
-    const { user, status, error } = useSelector((state) => state.auth);
+import { signup, setError, resetState } from '../../features/authSlice';
 
-    // useRef for the form
-    const signupRef = useRef();
-    // navigate
-    const navigate = useNavigate();
+
+/**
+ * The signup form (used in Signup page)
+ */
+export default function SignupForm() {
+    /**
+     * Redux
+     */
+    const { user, status, error } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
+    /**
+     * Hooks 
+    */
+    const navigate = useNavigate();
+    const signupRef = useRef();
+
+    /**
+     * Go to home if already authenticated
+     */
     useEffect(() => {
         if (user) {
             navigate("/");
+        } else {
+            dispatch(resetState());
         }
-    })
+    }, []);
 
+    /**
+     * Handle submission of data
+     */
     const handleSubmit = (e) => {
         e.preventDefault(); 
+
+        /**
+         * All fields should be filled
+         */
         if (!signupRef.current.name.value || !signupRef.current.email.value || !signupRef.current.password.value || !signupRef.current.conPassword.value) {
-            // all fields must be filled
-            setError({
-                error: "Invalid credentials"
-            });
-            return ;
+            dispatch(setError({
+                error: "Invalid values"
+            }))
+            return;
         }
-        // check if confirm password and password match
-        if (signupRef.current.password.value  === signupRef.current.conPassword.value) {
-            // prepare the data
-            const signupInfo = {
-                name: signupRef.current.name.value,
-                email: signupRef.current.email.value,
-                password: signupRef.current.password.value
-            };
-            // sign the user up
-            dispatch(signup(signupInfo));
-        } else {
-            setError({
-                error: "Confirm Password"
-            });
+
+        /**
+         * Check if the confirm password matches
+         */
+        if (signupRef.current.password.value  !== signupRef.current.conPassword.value) {
+            dispatch(setError({
+                error: "Password does not match"
+            }));
+            return;
         }
+
+        /**
+         * Store data and dispatch action
+         */
+        const signupInfo = {
+            name: signupRef.current.name.value,
+            email: signupRef.current.email.value,
+            password: signupRef.current.password.value
+        };
+        dispatch(signup(signupInfo));
     }
 
 
@@ -66,8 +91,8 @@ export default function SignupForm() {
                 <label><h6>Confirm Password</h6></label>
                 <input type="password" name="conPassword" className="form-control" placeholder="Confirm Password"/>
             </div>
-            <button type="submit" className="btn btn-submit">signup</button>
-            <p style={(error !== "") ? {visibility: "visible", color: "red"} : {visibility: "hidden"}}>{error}</p>
+            <button type="submit" className="btn btn-submit">SIGNUP</button>
+            <p style={(error) ? {visibility: "visible", color: "red"} : {visibility: "hidden"}}>{error}</p>
         </form>
     )
 }
