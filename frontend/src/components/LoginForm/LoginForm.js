@@ -24,18 +24,6 @@ export default function LoginForm() {
     const loginRef = useRef(null);
     const navigate = useNavigate();
 
-
-    /**
-     * Go to home if already authenticated
-     */
-    useEffect(() => {
-        if (user) {
-            navigate("/");
-        } else {
-            dispatch(resetState());
-        }
-    }, [])
-
     /**
      * Handle submission of data
      */
@@ -59,6 +47,7 @@ export default function LoginForm() {
          */
         dispatch(login(loginInfo));
     }
+
 
     return (
         <form className="login-form" ref={loginRef} onSubmit={handleSubmit}>

@@ -43,10 +43,17 @@ export default function SignupForm() {
         /**
          * All fields should be filled
          */
-        if (!signupRef.current.name.value || !signupRef.current.email.value || !signupRef.current.password.value || !signupRef.current.conPassword.value) {
+        if (!signupRef.current.firstName.value || 
+            !signupRef.current.lastName.value ||
+            !signupRef.current.userName.value ||
+            !signupRef.current.email.value || 
+            !signupRef.current.password.value || 
+            !signupRef.current.conPassword.value) {
+
             dispatch(setError({
-                error: "Invalid values"
+                error: "Fields cannot be empty"
             }))
+
             return;
         }
 
@@ -64,7 +71,9 @@ export default function SignupForm() {
          * Store data and dispatch action
          */
         const signupInfo = {
-            name: signupRef.current.name.value,
+            userName: signupRef.current.userName.value,
+            firstName: signupRef.current.firstName.value,
+            lastName: signupRef.current.lastName.value,
             email: signupRef.current.email.value,
             password: signupRef.current.password.value
         };
@@ -76,8 +85,16 @@ export default function SignupForm() {
         <form className="signup-form" ref={signupRef} onSubmit={handleSubmit}>
             <h4>Signup</h4>
             <div className="form-group">
-                <label><h6>Full name</h6></label>
-                <input type="text" name="name" className="form-control" placeholder="Enter Name"/>
+                <label><h6>First Name</h6></label>
+                <input type="text" name="firstName" className="form-control" placeholder="Enter First Name"/>
+            </div>
+            <div className="form-group">
+                <label><h6>Last Name</h6></label>
+                <input type="text" name="lastName" className="form-control" placeholder="Enter Last Name"/>
+            </div>
+            <div className="form-group">
+                <label><h6>User Name</h6></label>
+                <input type="text" name="userName" className="form-control" placeholder="Enter User Name"/>
             </div>
             <div className="form-group">
                 <label><h6>Email</h6></label>

@@ -27,7 +27,7 @@ export const login = createAsyncThunk('auth/login', async (userInfo, { rejectWit
 
         const payload = {
             user: data.user,
-            token: data.jwtToken
+            token: data.token
         }
         return payload
     } catch (error) {
@@ -60,7 +60,7 @@ export const signup = createAsyncThunk('auth/signup', async (userInfo, { rejectW
 
         const payload = {
             user: data.user,
-            token: data.jwtToken
+            token: data.token 
         }
         return payload
     } catch (error) {
