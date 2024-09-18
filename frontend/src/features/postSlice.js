@@ -5,17 +5,16 @@ import constants from "../constants/constants";
 /**
  * No auth
  */
-export const fetchAllPosts = createAsyncThunk('post/fetchAllPosts', async ({ rejectWithValue }) => {
+export const fetchAllPosts = createAsyncThunk('post/fetchAllPosts', async ( _, { rejectWithValue }) => {
     try {
         const url = `${process.env.REACT_APP_API_URL}/posts/`;
         const response = await fetch(url, {
             method: "GET"
         });
-
         if (!response.ok) {
             return rejectWithValue({ error: "Invalid request" });
         }
-
+        
         const data = await response.json();
 
         const payload = {
@@ -29,14 +28,14 @@ export const fetchAllPosts = createAsyncThunk('post/fetchAllPosts', async ({ rej
 });
   
 /**
- * Auth
+ * Auth required
  */
 export const addPost = createAsyncThunk('post/addPost', async (post, { rejectWithValue }) => {
     return null;
 });
 
 /**
- * 
+ * Auth required
  */
 export const fetchMyPosts = createAsyncThunk('post/fetchMyPosts', async (userInfo) => {
     return null;
@@ -74,8 +73,12 @@ const postSlice = createSlice({
             })
             .addCase(fetchAllPosts.rejected, (state, action) => {
                 state.posts = [];
-                state.error = action.payload.error;
+                state.error = action.payload?.error;
                 state.status = constants.STATUS_FAILED;
+            })
+            /** Add post  */
+            .addCase(addPost.fulfilled, (state) => {
+                
             })
             .addCase(fetchLikePosts.fulfilled, (state) => {
                 
@@ -83,9 +86,7 @@ const postSlice = createSlice({
             .addCase(fetchMyPosts.fulfilled, (state) => {
                 
             })
-            .addCase(addPost.fulfilled, (state) => {
-                
-            })
+            
     }
 })
 

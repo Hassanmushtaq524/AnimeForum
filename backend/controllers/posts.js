@@ -32,7 +32,7 @@ exports.createPost = async (req, res) => {
 exports.getPosts = async (req, res) => {
     try {
         // returns the array of all posts
-        let posts = await Post.find({}).populate("comments.user", "_id name").populate("likes.$*.user", "_id name").populate("user", "_id name");
+        let posts = await Post.find({}).populate("comments.user", "_id userName").populate("likes.$*.user", "_id userName").populate("user", "_id userName");
         return res.status(200).json({ success: true, posts });
     } catch (error) {
         return res.status(500).json({ error: "Internal server error." });
@@ -46,7 +46,7 @@ exports.getUserPosts = async (req, res) => {
     try {
         const { userId } = req.params; 
         // get the posts by the user id
-        let posts = await Post.find({ user: userId }).populate("comments.user", "_id name").populate("likes.user", "_id name").populate("user", "_id name");
+        let posts = await Post.find({ user: userId }).populate("comments.user", "_id userName").populate("likes.user", "_id userName").populate("user", "_id userName");
         return res.status(200).json({ success: true, posts });
     } catch (error) {
         // TODO: reset
@@ -60,7 +60,7 @@ exports.getUserPosts = async (req, res) => {
 exports.getLikedPosts = async (req, res) => {
     try {
         const userId = req.params.userId;
-        let posts = await Post.find({}).populate("comments.user", "_id name").populate("likes.$*.user", "_id name").populate("user", "_id name");
+        let posts = await Post.find({}).populate("comments.user", "_id userName").populate("likes.$*.user", "_id userName").populate("user", "_id userName");
         // filter the liked posts
         posts = posts.filter((post) => {
             return post.likes.has(userId);

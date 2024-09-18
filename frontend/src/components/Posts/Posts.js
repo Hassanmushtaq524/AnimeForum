@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 // CSS
 import "./Posts.css";
@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 export default function Posts(props) {
     const { title } = props;
-    const { posts, status, error } = useSelector((state) => state.post)
+    const { posts, status, error } = useSelector((state) => state.post);
 
     return (
         <>
@@ -23,16 +23,16 @@ export default function Posts(props) {
                     posts.map((val, i, posts) => {
                         return (
                             <Post key={posts[posts.length - 1 - i]._id}
-                            postId = {posts[posts.length - 1 - i]._id} 
+                            _id = {posts[posts.length - 1 - i]._id} 
                             title = {posts[posts.length - 1 - i].title} 
                             description = {posts[posts.length - 1 - i].description} 
-                            name = {posts[posts.length - 1 - i].user.firstName} 
+                            userName = {posts[posts.length - 1 - i].user.userName} 
                             date = {posts[posts.length - 1 - i].date.slice(0, 10)} 
                             likes = {posts[posts.length - 1 - i].likes}/>
                         )
                     })
                 :
-                    <p>Nothing to display...</p>
+                    (error) ? <p>Error displaying posts</p> : <p>Nothing to display...</p>
                 }
             </div>
         </div>
