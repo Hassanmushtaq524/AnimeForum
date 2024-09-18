@@ -14,3 +14,16 @@ code {
     monospace;
 }
 
+
+
+/* Global Styles */
+.btn-submit {
+  background-color: var(--primary-color);
+  color: white;
+  font-family: var(--heading-font);
+}
+
+.btn-submit:hover {
+  background-color: var(--secondary-color);
+  color: white;
+}

@@ -10,6 +10,7 @@ exports.createPost = async (req, res) => {
         const user = req.user;
         // create the post
         const { title, description, tag } = req.body;
+
         let post = await Post.create({
             user: user.id,
             title: title,
@@ -19,6 +20,8 @@ exports.createPost = async (req, res) => {
             likes: {},
             comments: []
         });
+        // retrieve the post again and populate correct fields
+        post = await Post.findById(post._id).populate("comments.user", "_id userName").populate("likes.$*.user", "_id userName").populate("user", "_id userName");
         // return the post
         return res.status(200).json({ success: true, post });
     } catch (error) {
@@ -132,7 +135,7 @@ exports.addComment = async (req, res) => {
         const { postId } = req.params;
         let comment = req.body.comment;
         // set the comment user to current logged in user
-        comment.user = await User.findById(req.user.id, { "name": 1, "_id": 1});
+        comment.user = await User.findById(req.user.id, { "userName": 1, "_id": 1});
         let post = await Post.findByIdAndUpdate(
             postId,
             { $push: { comments: comment } },

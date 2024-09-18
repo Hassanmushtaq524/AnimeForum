@@ -4,16 +4,13 @@ import "./Post.css";
 
 
 export default function Post(props) {
-    // get props
+    /**
+     * Props
+     */
     const { _id, title, description, userName, date, likes } = props;
+    
     // liked state
     const [liked, setLiked] = useState(false);
-
-
-    
-    useEffect(() => {
-    }, []);
-    
 
     // limit the description words to display only 50   
     const parseDescription = (description) => {

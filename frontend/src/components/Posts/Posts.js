@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 // CSS
 import "./Posts.css";
@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 export default function Posts(props) {
     const { title } = props;
-    const { posts, status, error } = useSelector((state) => state.post);
+    const { posts, error } = useSelector((state) => state.post);
 
     return (
         <>
@@ -32,7 +32,7 @@ export default function Posts(props) {
                         )
                     })
                 :
-                    (error) ? <p>Error displaying posts</p> : <p>Nothing to display...</p>
+                    <p>Nothing to display...</p>
                 }
             </div>
         </div>

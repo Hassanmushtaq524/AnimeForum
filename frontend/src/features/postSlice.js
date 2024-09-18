@@ -11,6 +11,7 @@ export const fetchAllPosts = createAsyncThunk('post/fetchAllPosts', async ( _, {
         const response = await fetch(url, {
             method: "GET"
         });
+
         if (!response.ok) {
             return rejectWithValue({ error: "Invalid request" });
         }
@@ -30,8 +31,32 @@ export const fetchAllPosts = createAsyncThunk('post/fetchAllPosts', async ( _, {
 /**
  * Auth required
  */
-export const addPost = createAsyncThunk('post/addPost', async (post, { rejectWithValue }) => {
-    return null;
+export const addPost = createAsyncThunk('post/addPost', async ({ post, token }, { rejectWithValue }) => {
+    try {
+        const url = `${process.env.REACT_APP_API_URL}/posts/`;
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token' : `${token}`
+            },
+            body: JSON.stringify(post)
+        });
+
+        if (!response.ok) {
+            return rejectWithValue({ error: "Invalid request" });
+        }
+        
+        const data = await response.json();
+
+        const payload = {
+            post: data.post
+        }
+
+        return payload;
+    } catch (error) {
+        return rejectWithValue({ error: error.message || "Invalid request"});
+    }
 });
 
 /**
@@ -58,7 +83,11 @@ const postSlice = createSlice({
         error: null,
         status: constants.STATUS_IDLE
     },
-    reducers: {},
+    reducers: {
+        setError: (state, action) => {
+            state.error = action.payload?.error;
+        }
+    },
     extraReducers: (builder) => {
         builder
             /** Handle the fetchAllPosts states */
@@ -77,9 +106,20 @@ const postSlice = createSlice({
                 state.status = constants.STATUS_FAILED;
             })
             /** Add post  */
-            .addCase(addPost.fulfilled, (state) => {
-                
+            .addCase(addPost.pending, (state) => {
+                state.error = null;
+                state.status = constants.STATUS_PENDING;
             })
+            .addCase(addPost.fulfilled, (state, action) => {
+                state.posts.push(action.payload.post);
+                state.error = null;
+                state.status = constants.STATUS_SUCCESS;
+            })
+            .addCase(addPost.rejected, (state, action) => {
+                state.error = action.payload?.error;
+                state.status = constants.STATUS_FAILED;
+            })
+            /** */
             .addCase(fetchLikePosts.fulfilled, (state) => {
                 
             })
@@ -90,6 +130,6 @@ const postSlice = createSlice({
     }
 })
 
-
+export const { setError } = postSlice.actions;
 export default postSlice.reducer;
 

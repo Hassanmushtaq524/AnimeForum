@@ -7,9 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/authSlice";
 
 const Navbar = () => {
+    /**
+     * Redux
+     */
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
-    // handle logout functionality
+    
+    /**
+     * Logout handler
+     */
     const handleLogout = () => {
         dispatch(logout());
     }
@@ -29,10 +35,9 @@ const Navbar = () => {
                 { user ? 
                  <></> : 
                 <Link className="nav-link" to={"/signup"}>Signup</Link>}
-                {user && <Link className="nav-link" to={"/"}>Welcome Back, {user.firstName}</Link>}
+                {user && <Link className="nav-link" to={"/"}>Welcome Back, {user.userName}</Link>}
             </div>
         </div>
-
         </>
     )
 }
