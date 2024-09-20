@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import constants from "../constants/constants";
 
-//TODO: Implement
+
 /**
  * No auth
  */
@@ -28,6 +28,7 @@ export const fetchAllPosts = createAsyncThunk('post/fetchAllPosts', async ( _, {
     }
 });
   
+
 /**
  * Auth required
  */
@@ -59,8 +60,9 @@ export const addPost = createAsyncThunk('post/addPost', async ({ post, token }, 
     }
 });
 
+
 /**
- * 
+ * Toggle like
  */
 export const likePost = createAsyncThunk('post/likePost', async ({ _id, token }, { rejectWithValue }) => {
     try {
@@ -90,7 +92,7 @@ export const likePost = createAsyncThunk('post/likePost', async ({ _id, token },
 
 
 /**
- * Auth required
+ * No auth required
  */
 export const fetchUserPosts = createAsyncThunk('post/fetchUserPosts', async (_id, { rejectWithValue }) => {
     try {
@@ -115,8 +117,31 @@ export const fetchUserPosts = createAsyncThunk('post/fetchUserPosts', async (_id
     }
 });
 
-export const fetchLikePosts = createAsyncThunk('post/fetchLikePosts', async (userInfo) => {
-    return null;
+
+/**
+ * No auth required
+ */
+export const fetchLikedPosts = createAsyncThunk('post/fetchLikedPosts', async (_id, { rejectWithValue } ) => {
+    try {
+        const url = `${process.env.REACT_APP_API_URL}/posts/${_id}/liked`;
+        const response = await fetch(url, {
+            method: "GET",
+        });
+
+        if (!response.ok) {
+            return rejectWithValue({ error: "Invalid request" });
+        }
+        
+        const data = await response.json();
+
+        const payload = {
+            posts: data.posts
+        }
+
+        return payload;
+    } catch (error) {
+        return rejectWithValue({ error: error.message || "Invalid request"});
+    }
 });
 
 
@@ -133,7 +158,10 @@ const handleRejected = (state, action) => {
     state.status = constants.STATUS_FAILED;
 }
 
-// TODO: implement
+
+/**
+ * Post slice
+ */
 const postSlice = createSlice({
     name: "post",
     initialState: {
@@ -202,8 +230,19 @@ const postSlice = createSlice({
                 state.posts = [];
                 handleRejected(state, action);
             })
-            .addCase(fetchLikePosts.fulfilled, (state) => {
-                
+
+            /** Fetch liked user  */
+            .addCase(fetchLikedPosts.pending, (state) => {
+                handlePending(state);
+            })
+            .addCase(fetchLikedPosts.fulfilled, (state, action) => {
+                state.posts = action.payload.posts;
+                state.error = null;
+                state.status = constants.STATUS_SUCCESS;
+            })
+            .addCase(fetchLikedPosts.rejected, (state, action) => {
+                state.posts = [];
+                handleRejected(state, action);
             })
             
     }

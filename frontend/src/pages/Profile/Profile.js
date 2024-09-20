@@ -6,9 +6,8 @@ import "./Profile.css"
 import { useNavigate, useParams } from 'react-router-dom';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchLikePosts, fetchUserPosts } from '../../features/postSlice.js';
+import { fetchLikedPosts, fetchUserPosts } from '../../features/postSlice.js';
 import { logout } from '../../features/authSlice.js';
-
 export default function Profile() {
     /**
      * Current auth user
@@ -25,6 +24,7 @@ export default function Profile() {
      * Posts selected state
      * */ 
     const [selected, setSelected] = useState("Posts");   
+    const [authUser, setAuthUser] = useState(false);
     
     /**
      * Use navigatte
@@ -36,18 +36,22 @@ export default function Profile() {
         // their posts
         // When you go to user page using the _id, we have to check from useParams if the 
         // user._id is the one that is autheticated. 
+        setAuthUser(_id === user?._id);
+
         switch (selected) {
             case "Posts":
-                dispatch(fetchUserPosts(_id))
+                dispatch(fetchUserPosts(_id));
                 break;
             case "Liked":
-                dispatch(fetchLikePosts(_id))
+                dispatch(fetchLikedPosts(_id));
+                break;
         }
 
-    }, []);
+    }, [selected]);
 
     const handleLogout = () => {
         dispatch(logout());
+        navigate("/login");
     }
 
     return (
@@ -59,14 +63,9 @@ export default function Profile() {
                 <h3 
                  style={ selected === "Liked" ? {color: "#ee7752"} : {color: "black"} }
                  onClick={() => setSelected("Liked")}>Liked Posts</h3>
-                <h3 onClick={handleLogout}>Logout</h3>
+                {authUser && <h3 onClick={handleLogout}>Logout</h3>}
             </div>
-            {
-                selected === "Posts" ? 
-                <Posts title={selected} />
-                :
-                <Posts title={selected}/>
-            }
+            <Posts title={selected}/>
         </div>
     )
 }

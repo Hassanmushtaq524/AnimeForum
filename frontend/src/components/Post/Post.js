@@ -15,7 +15,7 @@ export default function Post(props) {
     /**
      * Props
      */
-    const { _id, title, description, userName, userId, date, likes } = props;
+    const { _id, title, description, userName, date, likes, authUser } = props;
 
     /**
      * Liked state
@@ -29,7 +29,6 @@ export default function Post(props) {
      */
     useEffect(() => {
         setLiked(likes.hasOwnProperty(user?._id));
-        setEdittable(userId === user?._id);
     }, [])
 
     /**
