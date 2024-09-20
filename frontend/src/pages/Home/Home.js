@@ -33,7 +33,6 @@ const Home = () => {
     return (
         <>
         <div className="home">
-
             { (user) ? <AddPost/> :  
             <div className="btn-container">
                 <button type="submit" className="btn btn-submit" onClick={() => navigate('/login')}>Login</button>

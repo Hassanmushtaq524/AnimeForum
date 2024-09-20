@@ -209,7 +209,7 @@ exports.likePost = async (req, res) => {
             postId, 
             { likes: post.likes },
             { new: true }
-        );
+        ).populate("comments.user", "_id userName").populate("likes.$*.user", "_id userName").populate("user", "_id userName");
         return res.status(200).json({ success: true , post: updatedPost });
     } catch (error) {
         return res.status(500).json({ error: "Internal server error."});

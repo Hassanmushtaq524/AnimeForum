@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import constants from "../constants/constants";
 
 //TODO: Implement
@@ -60,6 +60,36 @@ export const addPost = createAsyncThunk('post/addPost', async ({ post, token }, 
 });
 
 /**
+ * 
+ */
+export const likePost = createAsyncThunk('post/likePost', async ({ _id, token }, { rejectWithValue }) => {
+    try {
+        const url = `${process.env.REACT_APP_API_URL}/posts/like/${_id}`;
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: {
+                'auth-token' : `${token}`
+            }
+        });
+
+        if (!response.ok) {
+            return rejectWithValue({ error: "Invalid request" });
+        }
+        
+        const data = await response.json();
+
+        const payload = {
+            post: data.post
+        }
+
+        return payload;
+    } catch (error) {
+        return rejectWithValue({ error: error.message || "Invalid request"});
+    }
+});
+
+
+/**
  * Auth required
  */
 export const fetchMyPosts = createAsyncThunk('post/fetchMyPosts', async (userInfo) => {
@@ -70,10 +100,19 @@ export const fetchLikePosts = createAsyncThunk('post/fetchLikePosts', async (use
     return null;
 });
 
-export const likePost = createAsyncThunk('post/fetchLikePosts', async (userInfo) => {
-    return null;
-});
 
+/**
+ * Repeated rejection and pending states
+ */ 
+const handlePending = (state) => {
+    state.error = null;
+    state.status = constants.STATUS_PENDING;
+} 
+
+const handleRejected = (state, action) => {
+    state.error = action.payload?.error;
+    state.status = constants.STATUS_FAILED;
+}
 
 // TODO: implement
 const postSlice = createSlice({
@@ -92,8 +131,7 @@ const postSlice = createSlice({
         builder
             /** Handle the fetchAllPosts states */
             .addCase(fetchAllPosts.pending, (state) => {
-                state.error = null;
-                state.status = constants.STATUS_PENDING;
+                handlePending(state);
             })
             .addCase(fetchAllPosts.fulfilled, (state, action) => {
                 state.posts = action.payload.posts;
@@ -102,13 +140,11 @@ const postSlice = createSlice({
             })
             .addCase(fetchAllPosts.rejected, (state, action) => {
                 state.posts = [];
-                state.error = action.payload?.error;
-                state.status = constants.STATUS_FAILED;
+                handleRejected(state, action);
             })
             /** Add post  */
             .addCase(addPost.pending, (state) => {
-                state.error = null;
-                state.status = constants.STATUS_PENDING;
+                handlePending(state);
             })
             .addCase(addPost.fulfilled, (state, action) => {
                 state.posts.push(action.payload.post);
@@ -116,10 +152,21 @@ const postSlice = createSlice({
                 state.status = constants.STATUS_SUCCESS;
             })
             .addCase(addPost.rejected, (state, action) => {
-                state.error = action.payload?.error;
-                state.status = constants.STATUS_FAILED;
+                handleRejected(state, action);
             })
-            /** */
+            /** Like post */
+            .addCase(likePost.pending, (state) => {
+                handlePending(state);
+            })
+            .addCase(likePost.fulfilled, (state, action) => {
+                const idx = state.posts.findIndex((post) => post._id === action.payload.post._id);
+                state.posts[idx] = action.payload.post;
+                state.error = null;
+                state.status = constants.STATUS_SUCCESS;
+            })
+            .addCase(likePost.rejected, (state, action) => {
+                handleRejected(state, action);
+            })
             .addCase(fetchLikePosts.fulfilled, (state) => {
                 
             })
