@@ -26,7 +26,8 @@ export default function Posts(props) {
                             _id = {posts[posts.length - 1 - i]._id} 
                             title = {posts[posts.length - 1 - i].title} 
                             description = {posts[posts.length - 1 - i].description} 
-                            userName = {posts[posts.length - 1 - i].user.userName} 
+                            userName = {posts[posts.length - 1 - i].user.userName}
+                            userId = {posts[posts.length - 1 - i].user._id}
                             date = {posts[posts.length - 1 - i].date.slice(0, 10)} 
                             likes = {posts[posts.length - 1 - i].likes}/>
                         )

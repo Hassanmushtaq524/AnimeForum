@@ -27,7 +27,7 @@ const Navbar = () => {
             <div className="nav-items">
                 <Link className="nav-link" to={"/"}>Home</Link>
                 { user ? 
-                <Link className="nav-link" to={"/profile"}>My Profile</Link> :
+                <Link className="nav-link" to={`/profile/${user._id}`}>My Profile</Link> :
                 <></> }
                 { user ? 
                 <Link onClick={handleLogout} className="nav-link" to={"/login"}>Logout</Link> : 

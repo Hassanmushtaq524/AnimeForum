@@ -92,8 +92,27 @@ export const likePost = createAsyncThunk('post/likePost', async ({ _id, token },
 /**
  * Auth required
  */
-export const fetchMyPosts = createAsyncThunk('post/fetchMyPosts', async (userInfo) => {
-    return null;
+export const fetchUserPosts = createAsyncThunk('post/fetchUserPosts', async (_id, { rejectWithValue }) => {
+    try {
+        const url = `${process.env.REACT_APP_API_URL}/posts/${_id}`;
+        const response = await fetch(url, {
+            method: "GET",
+        });
+
+        if (!response.ok) {
+            return rejectWithValue({ error: "Invalid request" });
+        }
+        
+        const data = await response.json();
+
+        const payload = {
+            posts: data.posts
+        }
+
+        return payload;
+    } catch (error) {
+        return rejectWithValue({ error: error.message || "Invalid request"});
+    }
 });
 
 export const fetchLikePosts = createAsyncThunk('post/fetchLikePosts', async (userInfo) => {
@@ -142,6 +161,7 @@ const postSlice = createSlice({
                 state.posts = [];
                 handleRejected(state, action);
             })
+
             /** Add post  */
             .addCase(addPost.pending, (state) => {
                 handlePending(state);
@@ -154,6 +174,7 @@ const postSlice = createSlice({
             .addCase(addPost.rejected, (state, action) => {
                 handleRejected(state, action);
             })
+
             /** Like post */
             .addCase(likePost.pending, (state) => {
                 handlePending(state);
@@ -167,10 +188,21 @@ const postSlice = createSlice({
             .addCase(likePost.rejected, (state, action) => {
                 handleRejected(state, action);
             })
-            .addCase(fetchLikePosts.fulfilled, (state) => {
-                
+
+            /** Fetch my posts */
+            .addCase(fetchUserPosts.pending, (state) => {
+                handlePending(state);
             })
-            .addCase(fetchMyPosts.fulfilled, (state) => {
+            .addCase(fetchUserPosts.fulfilled, (state, action) => {
+                state.posts = action.payload.posts;
+                state.error = null;
+                state.status = constants.STATUS_SUCCESS;
+            })
+            .addCase(fetchUserPosts.rejected, (state, action) => {
+                state.posts = [];
+                handleRejected(state, action);
+            })
+            .addCase(fetchLikePosts.fulfilled, (state) => {
                 
             })
             

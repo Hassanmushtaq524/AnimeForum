@@ -15,12 +15,13 @@ export default function Post(props) {
     /**
      * Props
      */
-    const { _id, title, description, userName, date, likes } = props;
+    const { _id, title, description, userName, userId, date, likes } = props;
 
     /**
      * Liked state
      */
     const [liked, setLiked] = useState(false);
+    const [edittable, setEdittable] = useState(false);
     const navigate = useNavigate();
 
     /**
@@ -28,6 +29,7 @@ export default function Post(props) {
      */
     useEffect(() => {
         setLiked(likes.hasOwnProperty(user?._id));
+        setEdittable(userId === user?._id);
     }, [])
 
     /**
@@ -72,6 +74,7 @@ export default function Post(props) {
                 </p>
                 <p>{Object.keys(likes).length}</p>
                 <p>Date Posted: {date}</p>  
+                {edittable && <p>Can Edit!</p>}
             </div>
         </div>
     );
