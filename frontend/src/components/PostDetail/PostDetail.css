@@ -1,5 +1,5 @@
 .post-detail {
-    height: 100%;
+    height: fit-content;
     min-width: 300px;
     width: 50vw;
     display: flex;

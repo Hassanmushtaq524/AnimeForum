@@ -3,6 +3,8 @@ import PostDetail from '../../components/PostDetail/PostDetail'
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { fetchAllPosts } from '../../features/postSlice';
+import "./PostPage.css";
+
 
 function PostPage() {
   /**

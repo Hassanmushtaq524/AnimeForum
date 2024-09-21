@@ -1,4 +1,8 @@
-.post-page {
-    height: 100%;
+#post-page {
+    height: 100vh;
     width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding: 10vh 60px 60px 60px;
 }

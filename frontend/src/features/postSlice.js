@@ -30,6 +30,34 @@ export const fetchAllPosts = createAsyncThunk('post/fetchAllPosts', async ( _, {
   
 
 /**
+ * No auth
+ */
+export const fetchPost = createAsyncThunk('post/fetchPost', async ( _id, { rejectWithValue }) => {
+    try {
+        const url = `${process.env.REACT_APP_API_URL}/posts/${_id}`;
+        const response = await fetch(url, {
+            method: "GET"
+        });
+
+        if (!response.ok) {
+            return rejectWithValue({ error: "Invalid request" });
+        }
+        
+        const data = await response.json();
+
+        const payload = {
+            post: data.post
+        }
+
+        return payload;
+    } catch (error) {
+        return rejectWithValue({ error: error.message || "Invalid request"});
+    }
+});
+  
+
+
+/**
  * Auth required
  */
 export const addPost = createAsyncThunk('post/addPost', async ({ post, token }, { rejectWithValue }) => {
@@ -96,7 +124,7 @@ export const likePost = createAsyncThunk('post/likePost', async ({ _id, token },
  */
 export const fetchUserPosts = createAsyncThunk('post/fetchUserPosts', async (_id, { rejectWithValue }) => {
     try {
-        const url = `${process.env.REACT_APP_API_URL}/posts/${_id}`;
+        const url = `${process.env.REACT_APP_API_URL}/posts/user/${_id}`;
         const response = await fetch(url, {
             method: "GET",
         });
@@ -123,7 +151,7 @@ export const fetchUserPosts = createAsyncThunk('post/fetchUserPosts', async (_id
  */
 export const fetchLikedPosts = createAsyncThunk('post/fetchLikedPosts', async (_id, { rejectWithValue } ) => {
     try {
-        const url = `${process.env.REACT_APP_API_URL}/posts/${_id}/liked`;
+        const url = `${process.env.REACT_APP_API_URL}/posts/user/${_id}/liked`;
         const response = await fetch(url, {
             method: "GET",
         });
@@ -186,6 +214,20 @@ const postSlice = createSlice({
                 state.status = constants.STATUS_SUCCESS;
             })
             .addCase(fetchAllPosts.rejected, (state, action) => {
+                state.posts = [];
+                handleRejected(state, action);
+            })
+
+            /** fetchPost */
+            .addCase(fetchPost.pending, (state) => {
+                handlePending(state);
+            })
+            .addCase(fetchPost.fulfilled, (state, action) => {
+                state.posts = [action.payload.post];
+                state.error = null;
+                state.status = constants.STATUS_SUCCESS;
+            })
+            .addCase(fetchPost.rejected, (state, action) => {
                 state.posts = [];
                 handleRejected(state, action);
             })

@@ -32,10 +32,6 @@ export default function Profile() {
     let navigate = useNavigate();
     
     useEffect(() => {
-        // TODO: we need to make it so we can access other people's profile but cannot change
-        // their posts
-        // When you go to user page using the _id, we have to check from useParams if the 
-        // user._id is the one that is autheticated. 
         setAuthUser(_id === user?._id);
 
         switch (selected) {

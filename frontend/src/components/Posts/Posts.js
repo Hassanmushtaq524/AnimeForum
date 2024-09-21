@@ -23,7 +23,7 @@ export default function Posts(props) {
                 <h2>{title}</h2>
             </div>
             <div className="all-posts">
-                { posts.length ? 
+                { posts?.length ? 
                     posts.map((val, i, posts) => {
                         return (
                             <Post key={posts[posts.length - 1 - i]._id}

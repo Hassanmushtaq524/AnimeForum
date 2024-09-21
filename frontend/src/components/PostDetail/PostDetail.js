@@ -10,28 +10,32 @@ export default function PostDetail(props) {
      * Post id
      */
     const { _id } = props;
-
+    
     /**
      * Redux
      */
     const { user, token } = useSelector((state) => state.auth);
-    let post = useSelector((state) => state.post.posts.find((post) => post?._id === _id))
     const dispatch = useDispatch();
 
     /**
-     * Liked state
+     * Get post
      */
-    const [liked, setLiked] = useState(false);
-    const navigate = useNavigate();
+    const posts = useSelector((state) => state.post.posts);
+    const post = posts?.find((post) => post._id === _id);
 
     /**
-     * Check if current post is liked
-     */
+     * Liked state
+    */
+   const [liked, setLiked] = useState(false);
+   const navigate = useNavigate();
+   
+    /**
+    * Set liked
+    */
     useEffect(() => {
-        post = useSelector((state) => state.post.posts.find((post) => post._id === _id));
         setLiked(post?.likes.hasOwnProperty(user?._id));
     }, [])
-    
+
     /**
      * Handle like
      */
@@ -54,18 +58,18 @@ export default function PostDetail(props) {
 
     return (
         <div className="post-detail">
-            <h3>{title}</h3>
-            <p>{description}</p>
+            <h3>{post?.title}</h3>
+            <p>{post?.description}</p>
             <div className="bottom-wrapper">
-                <p>By: {post.user.userName}</p>
+                <p>By: {post?.user.userName}</p>
                 <p>
                     <svg onClick={handleLike} className={`heart-icon ${liked ? "heart-icon-liked": ""}`} width="20px" height="20px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <path d="M13.91,6.75c-1.17,2.25-4.3,5.31-6.07,6.94c-0.1903,0.1718-0.4797,0.1718-0.67,0C5.39,12.06,2.26,9,1.09,6.75&#xA;&#x9;C-1.48,1.8,5-1.5,7.5,3.45C10-1.5,16.48,1.8,13.91,6.75z"/>
                     </svg>
                 </p>
-                <p>{Object.keys(likes).length}</p>
-                <p>Date Posted: {date.slice(0, 10)}</p>  
-                {(post.user._id === user._id) && <p>Can Edit!</p>}
+                <p>{Object.keys(post?.likes).length}</p>
+                <p>Date Posted: {post?.date.slice(0, 10)}</p>  
+                {(post?.user._id === user._id) && <p>Can Edit!</p>}
             </div>
         </div>
     );
