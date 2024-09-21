@@ -10,7 +10,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 
 // CONTROLLERS
-const { register } = require("./controllers/auth.js");
+const { signup } = require("./controllers/auth.js");
 const fetchuser = require("./middleware/fetchuser.js");
 const { createPost } = require("./controllers/posts.js");
 
@@ -24,28 +24,51 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
+app.use("/assets", express.static(path.join(__dirname, '/assets')));
 
 // FILE STORAGE
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "public/assets");
+        cb(null, "/assets");
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname);
     }
 })
 
-const upload = multer({ storage });
+// File filter to accept only images
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(new Error('Unsupported file format'), false);
+    }
+};
 
-// ROUTES WITH FILES 
-app.post("/api/auth/register", upload.single("picture"), register);
+// Initialize upload instance
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5 // Limit files to 5MB
+    },
+    fileFilter: fileFilter
+});
+
+/**
+ * Signs up the user
+ * 
+ * Method: POST
+ * Content-type: multipart/form-data
+ * Body: { firstName, lastName, email, password }
+ * 
+ * @param {Object} req Contains a req.file property containing uploaded picture information
+ */
+app.post("/api/auth/signup", upload.single("picture"), signup);
 app.post("/api/posts/", fetchuser, upload.single("picture"), createPost);
 
 // ROUTES
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/posts", require("./routes/posts"));
-app.use("/api/users", require("./routes/users"));
 
 // connect to mongoDB
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
@@ -53,7 +76,7 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
 
     // connect if successful
     app.listen( port , () => {
-        console.log("listening on port " + process.env.PORT + "...");
+        console.log(`listening on port ${port}...`);
     })
 
 }).catch((err) => {

@@ -1,0 +1,40 @@
+.post-detail {
+    height: fit-content;
+    min-width: 300px;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 1vw;
+    padding: 20px;
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, .13), 0 1px 2px 0 rgba(0, 0, 0, .11);
+}
+
+.bottom-wrapper {
+    display: flex;
+    position: relative;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bottom-wrapper > p {
+    color: grey;
+    font-size: 0.8em;
+}
+
+.heart-icon {
+    stroke: var(--primary-color);
+    fill: none;
+}
+
+.heart-icon:hover {
+    fill: var(--primary-color);
+    stroke: none;
+}
+
+.heart-icon-liked {
+    fill: var(--primary-color);
+    stroke: none;
+}
