@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fetchuser = require("../middleware/fetchuser");
-const { getPosts, getUserPosts, updatePost, deletePost, getLikedPosts, addComment, removeComment, likePost } = require("../controllers/posts");
+const { getPost, getPosts, getUserPosts, updatePost, deletePost, getLikedPosts, addComment, removeComment, likePost } = require("../controllers/posts");
 
 
 
@@ -14,7 +14,7 @@ const { getPosts, getUserPosts, updatePost, deletePost, getLikedPosts, addCommen
  * 
  * Method: GET
 */
-router.get("/:userId/", getUserPosts);
+router.get("/user/:userId/", getUserPosts);
 
 
 /**
@@ -23,6 +23,13 @@ router.get("/:userId/", getUserPosts);
  * Method: GET
 */
 router.get("/", getPosts);
+
+/**
+ * Fetches a specefic post
+ * 
+ * Method: GET
+*/
+router.get("/:id", getPost);
 
 
 /**
@@ -90,7 +97,7 @@ router.put("/like/:postId", fetchuser, likePost)
  * 
  * Method: GET
  */
-router.get("/:userId/liked", getLikedPosts);
+router.get("/user/:userId/liked", getLikedPosts);
 
 
 module.exports = router;

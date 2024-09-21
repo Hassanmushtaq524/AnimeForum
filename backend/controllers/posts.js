@@ -42,6 +42,17 @@ exports.getPosts = async (req, res) => {
     }
 }
 
+exports.getPost = async (req, res) => {
+    try {
+        const { id } = req.params;
+        // returns the array of all posts
+        let post = await Post.findById(id).populate("comments.user", "_id userName").populate("likes.$*.user", "_id userName").populate("user", "_id userName");
+        return res.status(200).json({ success: true, post });
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error." });
+    }
+}
+
 /**
  * getUserPosts controller
  */

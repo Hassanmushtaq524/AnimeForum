@@ -30,7 +30,7 @@ export default function PostDetail(props) {
     useEffect(() => {
         post = useSelector((state) => state.post.posts.find((post) => post._id === _id));
         setLiked(post?.likes.hasOwnProperty(user?._id));
-    }, [post])
+    }, [])
     
     /**
      * Handle like
