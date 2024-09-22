@@ -1,12 +1,13 @@
 # ANIME FORUM
 
-Description
-
+This is an anime-centered social media application! Users are able to discuss and share things related to Anime/Manga culture!
 [![Used](https://skillicons.dev/icons?i=react,nodejs,expressjs,docker,html,css,mongodb)](https://skillicons.dev)
 
-## About the project
+## Mockup
 
-About
+This is the final mockup of what the fully-developed project will look like:
+
+![image info](https://cdn.dribbble.com/userupload/14215945/file/original-20a7dfff6dc973900f273244d8f833a3.png?resize=998x774)
 
 ## Getting started
 
@@ -14,28 +15,25 @@ About
 ### Dependencies
 
 
-Libraries used (both frontend and backend):
+Libraries used:
 
 - React.js
 - Node.js
 - Express.js
 - Docker
-- pg
+- helmet
+- morgan
 - cors
-- express-validator
 - bcryptjs
 - jsonwebtoken
--
--
--
--
+- mongoose
 
 ### Installation
 
 
 Clone the repository
 ```bash
-git clone https://github.com/Hassanmushtaq524/TodoGame.git
+git clone https://github.com/Hassanmushtaq524/AnimeForum.git
 ```
 
 Install the packages
