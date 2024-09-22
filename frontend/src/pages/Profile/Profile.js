@@ -43,7 +43,7 @@ export default function Profile() {
                 break;
         }
 
-    }, [selected]);
+    }, [selected, _id]);
 
     const handleLogout = () => {
         dispatch(logout());

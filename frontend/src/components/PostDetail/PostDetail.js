@@ -69,7 +69,7 @@ export default function PostDetail(props) {
                 </p>
                 <p>{Object.keys(post?.likes).length}</p>
                 <p>Date Posted: {post?.date.slice(0, 10)}</p>  
-                {(post?.user._id === user._id) && <p>Can Edit!</p>}
+                {(post?.user._id === user?._id) && <p>Can Edit!</p>}
             </div>
         </div>
     );

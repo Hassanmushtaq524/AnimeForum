@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import PostDetail from '../../components/PostDetail/PostDetail'
-import { useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPosts } from '../../features/postSlice';
 import "./PostPage.css";
 import AddComment from '../../components/AddComment/AddComment';
@@ -11,8 +11,9 @@ function PostPage() {
   /**
    * Redux
    */
-
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   /**
    * Params
@@ -28,7 +29,12 @@ function PostPage() {
   return (
     <div id="post-page">
       <PostDetail _id={_id}/>
-      <AddComment/>
+      { (user) ? <AddComment/> :  
+        <div className="btn-container">
+            <button type="submit" className="btn btn-submit" onClick={() => navigate('/login')}>Login</button>
+            <h5>OR</h5>
+            <button type="submit" className="btn btn-submit" onClick={() => navigate('/signup')}>Signup</button>
+        </div> } 
       {/* TODO: Comments page */}
     </div>
   )

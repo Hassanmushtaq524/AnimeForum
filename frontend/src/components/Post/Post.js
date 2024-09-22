@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { likePost, deletePost } from "../../features/postSlice";
+import { useNavigate } from 'react-router-dom';
 // CSS
 import "./Post.css";
-import { useDispatch, useSelector } from "react-redux";
-import { likePost } from "../../features/postSlice";
-import { useNavigate } from 'react-router-dom';
+import deleteIcon from "../../assets/icons8-delete.svg";
 
 export default function Post(props) {
     /**
@@ -65,6 +66,20 @@ export default function Post(props) {
     }
 
 
+    /**
+     * Handle delete
+     */
+
+    const handleDelete = (e) => {
+        e.stopPropagation();
+        dispatch(deletePost({_id, token}));
+    }
+
+    /**
+     * Handle update
+     */
+
+
     return (
         <div className="post" onClick={() => navigate(`/post/${_id}`)}>
             <h3>{title}</h3>
@@ -78,7 +93,10 @@ export default function Post(props) {
                 </p>
                 <p>{Object.keys(likes).length}</p>
                 <p>Date Posted: {date}</p>  
-                {authUser && <p>Can Edit!</p>}
+                {authUser && 
+                <div>
+                    <img onClick={handleDelete} src={deleteIcon}/>
+                </div>}
             </div>
         </div>
     );

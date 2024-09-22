@@ -90,6 +90,37 @@ export const addPost = createAsyncThunk('post/addPost', async ({ post, token }, 
 
 
 /**
+ * Auth required
+ *
+ */
+
+export const deletePost = createAsyncThunk('post/deletePost', async ({_id, token}, { rejectWithValue }) => {
+    try {
+        const url = `${process.env.REACT_APP_API_URL}/posts/${_id}`;
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                'auth-token' : `${token}`
+            }
+
+        })
+        if (!response.ok) {
+            return rejectWithValue({ error: "Invalid request" });
+        }
+        
+        const data = await response.json();
+
+        const payload = {
+            _id: _id
+        }
+
+        return payload
+    } catch (error) {
+        return rejectWithValue({ error: error.message || "Invalid request"});
+    }
+})
+
+/**
  * Toggle like
  */
 export const likePost = createAsyncThunk('post/likePost', async ({ _id, token }, { rejectWithValue }) => {
@@ -256,6 +287,20 @@ const postSlice = createSlice({
                 state.status = constants.STATUS_SUCCESS;
             })
             .addCase(likePost.rejected, (state, action) => {
+                handleRejected(state, action);
+            })
+
+            /** Delete post */
+            .addCase(deletePost.pending, (state) => {
+                handlePending(state);
+            })
+            .addCase(deletePost.fulfilled, (state, action) => {
+                const idx = state.posts.findIndex((post) => post._id === action.payload._id);
+                state.posts.splice(idx, 1);
+                state.error = null;
+                state.status = constants.STATUS_SUCCESS;
+            })
+            .addCase(deletePost.rejected, (state, action) => {
                 handleRejected(state, action);
             })
 
