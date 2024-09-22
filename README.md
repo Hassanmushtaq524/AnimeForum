@@ -1,4 +1,4 @@
-# ANIME FORUM
+# ANIMEFORUM!
 
 This is an anime-centered social media application! Users are able to discuss and share things related to Anime/Manga culture!
 [![Used](https://skillicons.dev/icons?i=react,nodejs,expressjs,docker,html,css,mongodb)](https://skillicons.dev)
