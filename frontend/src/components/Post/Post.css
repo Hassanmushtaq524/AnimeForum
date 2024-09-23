@@ -19,9 +19,9 @@
     align-items: center;
 }
 
-.bottom-wrapper > p {
+.bottom-wrapper > p, .bottom-wrapper > div > p {
     color: grey;
-    font-size: 0.8em;
+    font-size: 12px;
 }
 
 .heart-icon {

@@ -29,7 +29,7 @@ function PostPage() {
   return (
     <div id="post-page">
       <PostDetail _id={_id}/>
-      { (user) ? <AddComment/> :  
+      { (user) ? <AddComment _id={_id}/> :  
         <div className="btn-container">
             <button type="submit" className="btn btn-submit" onClick={() => navigate('/login')}>Login</button>
             <h5>OR</h5>
