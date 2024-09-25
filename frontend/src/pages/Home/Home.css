@@ -6,6 +6,7 @@
     padding: 10vh 60px 60px 60px;
     gap: 0.5vw;
     flex-wrap: wrap;
+    overflow: hidden;
 }
 
 .btn-container {

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPosts } from '../../features/postSlice';
 import "./PostPage.css";
 import AddComment from '../../components/AddComment/AddComment';
+import Comments from '../../components/Comments/Comments';
 
 
 function PostPage() {
@@ -35,7 +36,8 @@ function PostPage() {
             <h5>OR</h5>
             <button type="submit" className="btn btn-submit" onClick={() => navigate('/signup')}>Signup</button>
         </div> } 
-      {/* TODO: Comments page */}
+      <Comments _id={_id}/>
+      {/* TODO: Comments page, we pass the _id here as well */}
     </div>
   )
 }
