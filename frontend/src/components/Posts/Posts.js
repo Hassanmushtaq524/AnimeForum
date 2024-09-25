@@ -34,7 +34,7 @@ export default function Posts(props) {
                             userName = {posts[posts.length - 1 - i].user.userName}
                             userId = {posts[posts.length - 1 - i].user._id}
                             authUser = {posts[posts.length - 1 - i].user._id === user?._id}
-                            date = {posts[posts.length - 1 - i].date.slice(0, 10)} 
+                            date = {posts[posts.length - 1 - i].date} 
                             likes = {posts[posts.length - 1 - i].likes}/>
                         )
                     })

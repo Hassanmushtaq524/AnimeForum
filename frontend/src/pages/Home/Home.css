@@ -3,7 +3,7 @@
     width: 100vw;
     display: flex;
     justify-content: center;
-    padding: 10vh 60px 60px 60px;
+    padding: 40px 40px 40px 16vw;
     gap: 0.5vw;
     flex-wrap: wrap;
     overflow: hidden;

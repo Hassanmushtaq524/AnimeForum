@@ -1,8 +1,8 @@
 .post {
     border: 0.5px solid var(--primary-color);
-    border-radius: 10px;
+    border-radius: 12px;
     width: 100%;
-    padding: 10px 20px;
+    padding: 20px;
     background-color: white;
     transition: all 0.2s ease-in-out;
 }
@@ -11,8 +11,9 @@
     border: 5px solid var(--primary-color);
 }
 
+/* Bottom wrapper */
 .bottom-wrapper {
-    display: flex;
+    display: grid;
     position: relative;
     width: 100%;
     justify-content: space-between;
@@ -20,9 +21,24 @@
 }
 
 .bottom-wrapper > p, .bottom-wrapper > div > p {
-    color: grey;
+    color: var(--dark-grey);
     font-size: 12px;
 }
+
+/* Name link */
+.bottom-wrapper > p > .link {
+    color: var(--dark-grey);
+    font-size: 12px;
+    text-decoration: none;
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.bottom-wrapper > p > .link:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
 
 .heart-icon {
     stroke: var(--primary-color);
@@ -37,4 +53,9 @@
 .heart-icon-liked {
     fill: var(--primary-color);
     stroke: none;
+}
+
+.likes {
+    grid-row: 1;
+    grid-column: 2;
 }

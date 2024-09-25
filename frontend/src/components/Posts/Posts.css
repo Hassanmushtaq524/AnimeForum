@@ -1,21 +1,22 @@
 #posts {
     height: 100%;
     min-width: 300px;
-    width: 50vw;
+    width: 40vw;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: start;
     gap: 1vw;
-    padding: 20px 20px 0px 20px;
-    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, .13), 0 1px 2px 0 rgba(0, 0, 0, .11);
+    padding: 20px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 12px;
 }
 
-.posts-heading {
+/* .posts-heading {
     display: flex;
     align-items: center;
     width: 100%;
-}
+} */
 
 .all-posts {
     width: 100%;

@@ -1,22 +1,24 @@
 :root {
-  --primary-color: #ee7752;
-  --secondary-color: #e73c7e;
-  --heading-font: Bungee;
+  --primary-color: #FF6852;
+  --secondary-color: #F5D7B8;
+  --dark-grey: #7F7F7F;
+  --light-grey: #D9D9D9;
+  --primary-font: Bungee;
   --light-text: Inter-Light;
-  --text-font: Montserrat-Medium;
 }
 
 
 
 body {
   margin: 0;
-  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -32,16 +34,18 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--heading-font);
+  font-family: var(--primary-font);
 }
 
 p {
+  font-size: 14px;
   font-family: var(--light-text);
 }
+
 .btn-submit {
   background-color: var(--primary-color);
   color: white;
-  font-family: var(--heading-font);
+  font-family: var(--primary-font);
 }
 
 .btn-submit:hover {
