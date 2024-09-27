@@ -44,7 +44,6 @@ function AddPost() {
 
     return (
         <div id="addPosts">
-            <h4>Add a new post</h4>
             <form className="addPosts-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label><h6>Title</h6></label>
@@ -59,7 +58,7 @@ function AddPost() {
                     <input type="text" onChange={handleChange} value={newPost.tag} name="tag" className="form-control" placeholder="Enter Tag"/>
                 </div>
                 <p style={(error) ? {visibility: "visible", color: "red"} : {visibility: "collapse"}}>Please enter a valid post</p>
-                <button type="submit" className="btn btn-submit">Submit</button>
+                <button type="submit" className="btn btn-submit">+ Add Post</button>
             </form>
         </div>
   )

@@ -87,10 +87,10 @@ export default function Post(props) {
     /**
      * Handle update
      */
-    
+
 
     return (
-        <div className="post" onClick={() => navigate(`/post/${_id}`)}>
+        <div className="post primary-box" onClick={() => navigate(`/post/${_id}`)}>
             <h3>{title}</h3>
             <p>{parseDescription(description)}</p>
             <div className="bottom-wrapper">

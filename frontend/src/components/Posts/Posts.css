@@ -8,8 +8,6 @@
     align-items: start;
     gap: 1vw;
     padding: 20px;
-    border: 1px solid var(--secondary-color);
-    border-radius: 12px;
 }
 
 /* .posts-heading {

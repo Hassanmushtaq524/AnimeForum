@@ -19,7 +19,7 @@ export default function Posts(props) {
 
     return (
         <>
-        <div id="posts">
+        <div id="posts" className="secondary-box">
             <div className="posts-heading">
                 <h2>{title}</h2>
             </div>

@@ -52,3 +52,15 @@ p {
   background-color: var(--secondary-color);
   color: white;
 }
+
+
+/* Box style */
+.primary-box {
+  border: 0.5px solid var(--primary-color);
+  border-radius: 12px;
+}
+
+.secondary-box {
+  border: 0.5px solid var(--secondary-color);
+  border-radius: 12px;
+}

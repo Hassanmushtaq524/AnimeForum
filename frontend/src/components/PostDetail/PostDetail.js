@@ -25,16 +25,20 @@ export default function PostDetail(props) {
     const post = posts?.find((post) => post._id === _id);
 
     /**
-     * Liked state
+     * Liked and authUser state
     */
    const [liked, setLiked] = useState(false);
+   const [authUser, setAuthUser] = useState(false);
    const navigate = useNavigate();
+
+
    
     /**
     * Set liked
     */
     useEffect(() => {
         setLiked(post?.likes.hasOwnProperty(user?._id));
+        setAuthUser(post?.user._id === user?._id);
     }, [])
 
     /**
@@ -57,6 +61,17 @@ export default function PostDetail(props) {
     }
 
 
+    /**
+     * Put date in the correct format
+     */
+    const parseDate = (date) => {
+        date = date.slice(0, 10);
+        return `${date.slice(5,7)}/${date.slice(8)}/${date.slice(0,4)}`;
+    }
+
+    /** 
+     * Handle delete
+     */
     const handleDelete = (e) => {
         e.stopPropagation();
         dispatch(deletePost({_id, token}));
@@ -64,21 +79,26 @@ export default function PostDetail(props) {
     }
 
     return (
-        <div className="post-detail">
+        <div className="post-detail secondary-box">
             <h3>{post?.title}</h3>
             <p>{post?.description}</p>
             <div className="bottom-wrapper">
-                <p>By <Link onClick={(e) => e.stopPropagation()} to={`/profile/${post?.user._id}`}>{post?.user.userName}</Link></p>
-                <p>
-                    <svg onClick={handleLike} className={`heart-icon ${liked ? "heart-icon-liked": ""}`} width="20px" height="20px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13.91,6.75c-1.17,2.25-4.3,5.31-6.07,6.94c-0.1903,0.1718-0.4797,0.1718-0.67,0C5.39,12.06,2.26,9,1.09,6.75&#xA;&#x9;C-1.48,1.8,5-1.5,7.5,3.45C10-1.5,16.48,1.8,13.91,6.75z"/>
-                    </svg>
-                </p>
-                <p>{Object.keys(post?.likes).length}</p>
-                <p>Date Posted: {post?.date.slice(0, 10)}</p>  
-                {(post?.user._id === user?._id) && <p>Can Edit!</p>}
-                {(post?.user._id === user?._id) && 
-                <div>
+                <div className="link-container">
+                    <p><Link onClick={(e) => e.stopPropagation()} to={`/profile/${post?.user._id}`} className="link">{post?.user.userName}</Link></p>
+                </div>
+                <div className="likes-container" style={{ display: "flex", gap: "10px"}}>
+                    <p>
+                        <svg onClick={handleLike} className={`heart-icon ${liked ? "heart-icon-liked": ""}`} width="20px" height="20px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.91,6.75c-1.17,2.25-4.3,5.31-6.07,6.94c-0.1903,0.1718-0.4797,0.1718-0.67,0C5.39,12.06,2.26,9,1.09,6.75&#xA;&#x9;C-1.48,1.8,5-1.5,7.5,3.45C10-1.5,16.48,1.8,13.91,6.75z"/>
+                        </svg>
+                    </p>
+                    <h6>{Object.keys(post?.likes).length}</h6>
+                </div>
+                <div className="date-container">
+                    <p className="date">{parseDate(post?.date)}</p>  
+                </div>
+                {authUser && 
+                <div className="delete-container">
                     <img onClick={handleDelete} src={deleteIcon}/>
                 </div>}
             </div>

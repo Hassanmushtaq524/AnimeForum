@@ -37,14 +37,12 @@ function AddComment(props) {
     }
 
     return (
-        <div id="add-comment">
-            <h4>Add a new comment</h4>
+        <div id="add-comment" className="secondary-box">
             <form className="add-comment-form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label><h6>Text</h6></label>
-                    <input type="text" onChange={handleChange} value={newComment.text} name="text" className="form-control" placeholder="Enter Text"/>
+                    <textarea type="text" onChange={handleChange} value={newComment.text} name="text" className="form-control" placeholder="Enter Text"/>
                 </div>
-                <button type="submit" className="btn btn-submit">Submit</button>
+                <button type="submit" className="btn btn-submit">+ Add comment</button>
             </form>
         </div>
     )
