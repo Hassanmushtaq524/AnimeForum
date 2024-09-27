@@ -13,7 +13,6 @@
 }
 
 .nav-items {
-  max-width: 10vw;;
   width: 5vw;
   height: 100px;
   height: fit-content;
@@ -22,6 +21,7 @@
   justify-content: space-around;
   align-items: start;
   gap: 100px;
+  color: var(--primary-color);
 }
 
 .nav-link {
