@@ -1,19 +1,34 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import "./AddComment.css";
+import { addComment } from '../../features/postSlice';
 
-function AddComment() {
+function AddComment(props) {
     /**
      * Redux
      */
     const { user, token } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    
+    /**
+     * State
+     */
     const [newComment, setNewComment] = useState({ text: "" });
+
+    /**
+     * Post Id
+     */
+    const { _id } = props;
 
     /**
      * Send the comment
      */
     const handleSubmit = (e) => {
         e.preventDefault()
+        if (user) {
+            dispatch(addComment({ comment: newComment, _id, token }))
+        }
+        setNewComment({ text: "" });
         return;
     }
 
@@ -22,14 +37,12 @@ function AddComment() {
     }
 
     return (
-        <div id="add-comment">
-            <h4>Add a new comment</h4>
+        <div id="add-comment" className="secondary-box">
             <form className="add-comment-form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label><h6>Title</h6></label>
-                    <input type="text" onChange={handleChange} value={newComment.text} name="text" className="form-control" placeholder="Enter Text"/>
+                    <textarea type="text" onChange={handleChange} value={newComment.text} name="text" className="form-control" placeholder="Enter Text"/>
                 </div>
-                <button type="submit" className="btn btn-submit">Submit</button>
+                <button type="submit" className="btn btn-submit">+ Add comment</button>
             </form>
         </div>
     )

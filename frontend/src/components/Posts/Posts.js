@@ -6,6 +6,7 @@ import "./Posts.css";
 import Post from "../Post/Post.js";
 // Redux
 import { useSelector } from 'react-redux';
+import constants from '../../constants/constants.js';
 
 
 export default function Posts(props) {
@@ -13,12 +14,12 @@ export default function Posts(props) {
      * Redux
      */
     const { user } = useSelector((state) => state.auth); 
-    const { posts, error } = useSelector((state) => state.post);
+    const { posts, status } = useSelector((state) => state.post);
     const { title } = props;
 
     return (
         <>
-        <div id="posts">
+        <div id="posts" className="secondary-box">
             <div className="posts-heading">
                 <h2>{title}</h2>
             </div>
@@ -31,13 +32,14 @@ export default function Posts(props) {
                             title = {posts[posts.length - 1 - i].title} 
                             description = {posts[posts.length - 1 - i].description} 
                             userName = {posts[posts.length - 1 - i].user.userName}
+                            userId = {posts[posts.length - 1 - i].user._id}
                             authUser = {posts[posts.length - 1 - i].user._id === user?._id}
-                            date = {posts[posts.length - 1 - i].date.slice(0, 10)} 
+                            date = {posts[posts.length - 1 - i].date} 
                             likes = {posts[posts.length - 1 - i].likes}/>
                         )
                     })
                 :
-                    <p>Nothing to display...</p>
+                    (status === constants.STATUS_PENDING) ? <p>Loading...</p> : <p>Nothing to display...</p>
                 }
             </div>
         </div>

@@ -151,7 +151,7 @@ exports.addComment = async (req, res) => {
             postId,
             { $push: { comments: comment } },
             { new: true }
-        );
+        ).populate("comments.user", "_id userName").populate("likes.$*.user", "_id userName").populate("user", "_id userName");
         // if post is not found, return an error
         if (!post) {
             return res.status(404).json({ success: false, error: "Invalid request." })

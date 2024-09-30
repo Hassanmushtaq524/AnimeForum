@@ -1,11 +1,13 @@
-.home {
+#home {
     height: 100vh;
     width: 100vw;
     display: flex;
     justify-content: center;
-    padding: 10vh 60px 60px 60px;
-    gap: 0.5vw;
+    align-items: center;
+    padding: 40px 40px 40px 16vw;
+    gap: 20px;
     flex-wrap: wrap;
+    overflow: hidden;
 }
 
 .btn-container {

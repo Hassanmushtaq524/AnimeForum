@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/authSlice";
 
+import logo from "../../assets/logo.svg";
+
 const Navbar = () => {
     /**
      * Redux
@@ -23,7 +25,7 @@ const Navbar = () => {
     return (
         <>
         <div className="navbar">
-            <span className="logo">AnimeForum!</span>
+            <img src={logo}/>
             <div className="nav-items">
                 <Link className="nav-link" to={"/"}>Home</Link>
                 { user ? 

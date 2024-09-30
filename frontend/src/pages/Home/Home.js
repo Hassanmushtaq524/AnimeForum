@@ -32,14 +32,14 @@ const Home = () => {
 
     return (
         <>
-        <div className="home">
+        <div id="home">
+            <Posts/>
             { (user) ? <AddPost/> :  
             <div className="btn-container">
                 <button type="submit" className="btn btn-submit" onClick={() => navigate('/login')}>Login</button>
                 <h5>OR</h5>
                 <button type="submit" className="btn btn-submit" onClick={() => navigate('/signup')}>Signup</button>
             </div> }
-            <Posts title={"All Posts"}/>
         </div>
         </>
     )

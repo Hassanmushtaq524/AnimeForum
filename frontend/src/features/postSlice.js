@@ -90,6 +90,35 @@ export const addPost = createAsyncThunk('post/addPost', async ({ post, token }, 
 
 
 /**
+ * Auth required
+ */
+export const deletePost = createAsyncThunk('post/deletePost', async ({_id, token}, { rejectWithValue }) => {
+    try {
+        const url = `${process.env.REACT_APP_API_URL}/posts/${_id}`;
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                'auth-token' : `${token}`
+            }
+
+        })
+        if (!response.ok) {
+            return rejectWithValue({ error: "Invalid request" });
+        }
+        
+        const data = await response.json();
+
+        const payload = {
+            _id: _id
+        }
+
+        return payload
+    } catch (error) {
+        return rejectWithValue({ error: error.message || "Invalid request"});
+    }
+})
+
+/**
  * Toggle like
  */
 export const likePost = createAsyncThunk('post/likePost', async ({ _id, token }, { rejectWithValue }) => {
@@ -171,6 +200,39 @@ export const fetchLikedPosts = createAsyncThunk('post/fetchLikedPosts', async (_
         return rejectWithValue({ error: error.message || "Invalid request"});
     }
 });
+
+
+/**
+ * Auth required
+ */
+export const addComment = createAsyncThunk('post/addComment', async ({ comment, _id, token}, { rejectWithValue }) => {
+    try {
+        console.log(comment);
+        const url = `${process.env.REACT_APP_API_URL}/posts/comment/${_id}`;
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-type" : "application/json",
+                'auth-token' : `${token}`
+            },
+            body: JSON.stringify({ comment })
+        });
+
+        if (!response.ok) {
+            return rejectWithValue({ error: "Invalid request" });
+        }
+        
+        const data = await response.json();
+
+        const payload = {
+            post: data.post
+        }
+
+        return payload;
+    } catch (error) {
+        return rejectWithValue({ error: error.message || "Invalid request"});
+    }
+})
 
 
 /**
@@ -259,6 +321,20 @@ const postSlice = createSlice({
                 handleRejected(state, action);
             })
 
+            /** Delete post */
+            .addCase(deletePost.pending, (state) => {
+                handlePending(state);
+            })
+            .addCase(deletePost.fulfilled, (state, action) => {
+                const idx = state.posts.findIndex((post) => post._id === action.payload._id);
+                state.posts.splice(idx, 1);
+                state.error = null;
+                state.status = constants.STATUS_SUCCESS;
+            })
+            .addCase(deletePost.rejected, (state, action) => {
+                handleRejected(state, action);
+            })
+
             /** Fetch my posts */
             .addCase(fetchUserPosts.pending, (state) => {
                 handlePending(state);
@@ -286,6 +362,21 @@ const postSlice = createSlice({
                 state.posts = [];
                 handleRejected(state, action);
             })
+
+            /** Add comment */
+            .addCase(addComment.pending, (state) => {
+                handlePending(state);
+            })
+            .addCase(addComment.fulfilled, (state, action) => {
+                const idx = state.posts.findIndex((post) => post._id === action.payload.post._id);
+                state.posts[idx] = action.payload.post;
+                state.error = null;
+                state.status = constants.STATUS_SUCCESS;
+            })
+            .addCase(addComment.rejected, (state, action) => {
+                handleRejected(state, action);
+            })
+
             
     }
 })
