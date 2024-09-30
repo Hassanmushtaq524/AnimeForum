@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { likePost, deletePost } from "../../features/postSlice";
 import { Link, useNavigate } from 'react-router-dom';
-// CSS
-import "./Post.css";
 import deleteIcon from "../../assets/icons8-delete.svg";
 
 export default function Post(props) {

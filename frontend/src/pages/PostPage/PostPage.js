@@ -3,7 +3,6 @@ import PostDetail from '../../components/PostDetail/PostDetail'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllPosts } from '../../features/postSlice';
-import "./PostPage.css";
 import AddComment from '../../components/AddComment/AddComment';
 import Comments from '../../components/Comments/Comments';
 

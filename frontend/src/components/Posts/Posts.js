@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 
-// CSS
-import "./Posts.css";
 // components
 import Post from "../Post/Post.js";
 // Redux

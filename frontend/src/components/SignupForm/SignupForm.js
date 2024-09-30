@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-// CSS
-import "./SignupForm.css";
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { signup, setError, resetState } from '../../features/authSlice';

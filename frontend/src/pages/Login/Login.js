@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-// CSS
-import "./Login.css";
 // components
 import LoginForm from '../../components/LoginForm/LoginForm.js';
 import { useSelector, useDispatch } from 'react-redux';

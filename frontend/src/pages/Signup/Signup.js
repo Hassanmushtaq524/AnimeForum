@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react'
-// CSS
-import "./Signup.css";
 // components
 import SignupForm from '../../components/SignupForm/SignupForm';
 import { useDispatch, useSelector } from 'react-redux';

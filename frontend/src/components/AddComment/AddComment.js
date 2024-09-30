@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import "./AddComment.css";
 import { addComment } from '../../features/postSlice';
 
 function AddComment(props) {

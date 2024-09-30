@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import "./Navbar.css"
 
 // components
 import { Link } from "react-router-dom";

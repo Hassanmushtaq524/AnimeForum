@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-// CSS
-import "./PostDetail.css";
 import { useDispatch, useSelector } from "react-redux";
 import { likePost, deletePost } from "../../features/postSlice";
 import { Link, useNavigate } from 'react-router-dom';

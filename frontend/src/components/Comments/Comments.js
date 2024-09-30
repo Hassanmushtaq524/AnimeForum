@@ -1,7 +1,5 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
-// CSS
-import "./Comments.css";
 import Comment from '../Comment/Comment';
 function Comments(props) {
     /**

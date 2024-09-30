@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 // components
 import Posts from "../../components/Posts/Posts.js";
-// CSS
-import "./Profile.css"
 import { useNavigate, useParams } from 'react-router-dom';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';

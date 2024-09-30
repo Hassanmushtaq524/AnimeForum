@@ -6,8 +6,6 @@ import AddPost from '../../components/AddPost/AddPost.js';
 // Redux
 import { fetchAllPosts } from '../../features/postSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
-// CSS
-import "./Home.css";
 import { useNavigate } from 'react-router-dom';
 
 /**

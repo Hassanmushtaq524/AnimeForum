@@ -1,6 +1,4 @@
-import React, { useEffect, useRef, useState, memo } from 'react'
-// CSS
-import "./AddPost.css";
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { addPost, setError } from '../../features/postSlice';
 
