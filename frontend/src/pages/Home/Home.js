@@ -32,7 +32,7 @@ const Home = () => {
 
     return (
         <>
-        <div className="home">
+        <div id="home">
             <Posts/>
             { (user) ? <AddPost/> :  
             <div className="btn-container">
