@@ -24,8 +24,8 @@ const Navbar = () => {
     return (
         <>
         <div id="navbar " 
-             className="h-screen w-40 p-8 d-flex bg-primary flex flex-col gap-y-40">
-            <img src={logo}/>
+             className="h-screen w-60 p-8 d-flex bg-primary flex flex-col gap-y-40 items-center">
+            <img className="max-w-32" src={logo}/>
             <div className="nav-items
                             flex flex-col text-center gap-y-20">
                 <Link className="nav-link font-bungee text-white hover:text-secondary" to={"/"}>Home</Link>

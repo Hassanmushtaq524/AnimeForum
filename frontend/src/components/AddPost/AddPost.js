@@ -41,22 +41,28 @@ function AddPost() {
     }
 
     return (
-        <div id="addPosts">
-            <form className="addPosts-form" onSubmit={handleSubmit}>
-                <div className="form-group">
+        <div id="addPosts"
+             className="border-1 border-secondary rounded-xl p-8 h-fit w-96">
+            <form className="addPosts-form flex flex-col justify-start gap-y-4 " 
+                  onSubmit={handleSubmit}>
+                <div className="form-group flex flex-col gap-y-2">
                     <label><h6>Title</h6></label>
                     <input type="text" onChange={handleChange} value={newPost.title} name="title" className="form-control" placeholder="Enter Title"/>
                 </div>
-                <div className="form-group">
+                <div className="form-group flex flex-col gap-y-2">
                     <label><h6>Description</h6></label>
                     <textarea className="form-control" onChange={handleChange} value={newPost.description} name="description" placeholder="Enter Description" id="exampleFormControlTextarea1" rows="3"></textarea>
                 </div>
-                <div className="form-group">
+                <div className="form-group flex flex-col gap-y-2">
                     <label><h6>Tag</h6></label>
                     <input type="text" onChange={handleChange} value={newPost.tag} name="tag" className="form-control" placeholder="Enter Tag"/>
                 </div>
                 <p style={(error) ? {visibility: "visible", color: "red"} : {visibility: "collapse"}}>Please enter a valid post</p>
-                <button type="submit" className="btn btn-submit">+ Add Post</button>
+                <button type="submit" 
+                        className="btn btn-submit text-white bg-primary font-bungee p-2 rounded-xl 
+                                   hover:bg-transparent hover:text-primary hover:border-0.5 hover:border-primary">
+                        + Add Post
+                </button>
             </form>
         </div>
   )

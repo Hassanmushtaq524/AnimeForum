@@ -18,7 +18,7 @@ export default function Posts(props) {
     return (
         <>
         <div id="posts" 
-            className="border-solid border-1 border-secondary p-8 rounded-xl h-full overflow-scroll">
+            className="border-solid border-1 border-secondary p-8 rounded-xl h-full overflow-y-scroll">
             <div className="posts-heading">
                 <h2>{title}</h2>
             </div>

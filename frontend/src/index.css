@@ -16,7 +16,12 @@
     transition: 0.3s ease-in-out;
   }
   a:hover {
-    color: theme("colors.primary")
+    color: theme("colors.primary");
+  }
+  input, textarea {
+    border: 0.5px solid theme("colors.primary");
+    border-radius: theme("borderRadius.xl"); 
+    padding: theme("padding.4");
   }
 }
 
