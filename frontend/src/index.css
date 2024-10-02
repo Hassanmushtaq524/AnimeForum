@@ -1,4 +1,43 @@
-:root {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: theme("fontFamily.bungee");
+  }
+  p {
+    font-family: theme("fontFamily.interRegular");
+  }
+  a {
+    font-family: theme("fontFamily.interLight");
+    color: theme("colors.darkGray");
+    transition: 0.3s ease-in-out;
+  }
+  a:hover {
+    color: theme("colors.primary")
+  }
+}
+
+
+@font-face {
+  font-family: Bungee;
+  src: url("./assets/Bungee-Regular.ttf");
+}
+
+@font-face {
+  font-family: Inter-Light;
+  src: url("./assets/Inter-Light.ttf");
+}
+
+@font-face {
+  font-family: Inter-Regular;
+  src: url("./assets/Inter-Regular.ttf");
+}
+
+
+/* :root {
   --primary-color: #FF6852;
   --secondary-color: #F5D7B8;
   --dark-grey: #7F7F7F;
@@ -55,7 +94,7 @@ p {
 
 
 /* Box style */
-.primary-box {
+/* .primary-box {
   border: 0.5px solid var(--primary-color);
   border-radius: 12px;
 }
@@ -63,4 +102,4 @@ p {
 .secondary-box {
   border: 0.5px solid var(--secondary-color);
   border-radius: 12px;
-}
+} */

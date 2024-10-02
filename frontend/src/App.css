@@ -7,28 +7,3 @@ html {
   height: 100%;
 }
 
-@font-face {
-  font-family: Bungee;
-  src: url("./assets/Bungee-Regular.ttf");
-}
-
-@font-face {
-  font-family: Montserrat-Light;
-  src: url("./assets/Montserrat-Light.ttf");
-}
-
-@font-face {
-  font-family: Montserrat-Medium;
-  src: url("./assets/Montserrat-Medium.ttf");
-}
-
-@font-face {
-  font-family: Inter-Light;
-  src: url("./assets/Inter-Light.ttf");
-}
-
-@font-face {
-  font-family: Inter-Regular;
-  src: url("./assets/Inter-Regular.ttf");
-}
-

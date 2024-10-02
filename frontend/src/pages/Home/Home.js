@@ -30,7 +30,8 @@ const Home = () => {
 
     return (
         <>
-        <div id="home">
+        <div id="home"
+             className="flex flex-wrap h-full gap-x-6 p-6">
             <Posts/>
             { (user) ? <AddPost/> :  
             <div className="btn-container">

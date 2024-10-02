@@ -17,11 +17,12 @@ export default function Posts(props) {
 
     return (
         <>
-        <div id="posts" className="secondary-box">
+        <div id="posts" 
+            className="border-solid border-1 border-secondary p-8 rounded-xl h-full overflow-scroll">
             <div className="posts-heading">
                 <h2>{title}</h2>
             </div>
-            <div className="all-posts">
+            <div className="all-posts flex flex-col gap-y-4">
                 { posts?.length ? 
                     posts.map((val, i, posts) => {
                         return (

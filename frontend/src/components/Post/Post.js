@@ -88,7 +88,9 @@ export default function Post(props) {
 
 
     return (
-        <div className="post primary-box" onClick={() => navigate(`/post/${_id}`)}>
+        <div className="post primary-box
+                        border-solid border-1 border-primary p-8 rounded-xl overflow-y-scroll" 
+             onClick={() => navigate(`/post/${_id}`)}>
             <h3>{title}</h3>
             <p>{parseDescription(description)}</p>
             <div className="bottom-wrapper">
