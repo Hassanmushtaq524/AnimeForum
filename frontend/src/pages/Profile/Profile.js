@@ -49,15 +49,27 @@ export default function Profile() {
     }
 
     return (
-        <div id="profile">
-            <div className="select-bar">
-                <h3
-                 style={ selected === "Posts" ? {color: "#ee7752"} : {color: "black"} }
-                 onClick={() => setSelected("Posts")}>Posts</h3>
-                <h3 
-                 style={ selected === "Liked" ? {color: "#ee7752"} : {color: "black"} }
-                 onClick={() => setSelected("Liked")}>Liked Posts</h3>
-                {authUser && <h3 onClick={handleLogout}>Logout</h3>}
+        <div id="profile"
+             className="flex flex-wrap h-full gap-x-12 p-6 justify-center">
+            <div className="select-bar 
+                            h-fit 
+                            border-1 border-primary rounded-xl
+                            p-6
+                            flex flex-col justify-center items-center gap-y-12">
+                <h4
+                    // style={ selected === "Posts" ? {color: "#ee7752"} : {color: "black"} }
+                    className={selected === "Posts" ? "text-primary" : "text-secondary hover:text-primary"}
+                    style={{cursor: "pointer"}}
+                    onClick={() => setSelected("Posts")}>
+                    Posts
+                </h4>
+                <h4 
+                    className={selected === "Liked" ? "text-primary" : "text-secondary hover:text-primary"}
+                    style={{cursor: "pointer"}}
+                    onClick={() => setSelected("Liked")}>
+                    Liked Posts
+                </h4>
+                {authUser && <h4 style={{cursor: "pointer"}} className="text-secondary hover:text-primary" onClick={handleLogout}>Logout</h4>}
             </div>
             <Posts/>
         </div>

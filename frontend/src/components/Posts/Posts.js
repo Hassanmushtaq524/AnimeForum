@@ -18,7 +18,11 @@ export default function Posts(props) {
     return (
         <>
         <div id="posts" 
-            className="border-solid border-1 border-secondary p-8 rounded-xl h-full overflow-y-scroll min-w-[600px] no-scrollbar">
+            className="border-solid border-1 border-secondary rounded-xl
+                       p-8 
+                       h-full 
+                       overflow-y-scroll 
+                       w-[600px] no-scrollbar">
             <div className="all-posts flex flex-col gap-y-4">
                 { posts?.length ? 
                     posts.map((val, i, posts) => {
