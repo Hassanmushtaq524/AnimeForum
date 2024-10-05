@@ -1,4 +1,95 @@
-:root {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* add the code bellow */ 
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: theme("fontFamily.bungee");
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+  h2 {
+    @apply text-3xl;
+  }
+  h3 {
+    @apply text-2xl;
+  }
+  h4 {
+    @apply text-xl;
+  }
+  h5 {
+    @apply text-lg;
+  }
+
+  p {
+    font-family: theme("fontFamily.interRegular");
+    @apply text-base
+  }
+  
+  a {
+    font-family: theme("fontFamily.interLight");
+    color: theme("colors.darkGray");
+    transition: 0.3s ease-in-out;
+  }
+  
+  a:hover {
+    color: theme("colors.primary");
+  }
+
+  input, textarea {
+    border: 0.5px solid theme("colors.primary");
+    border-radius: theme("borderRadius.xl"); 
+    padding: theme("padding.4");
+    width: theme("width.full");
+    @apply text-sm
+    
+  }
+
+  .btn-submit {
+    @apply w-full font-bungee text-white bg-primary p-2 rounded-xl duration-300;
+    @apply hover:text-primary hover:bg-transparent hover:border-0.5 hover:border-primary;
+  }
+
+  .form-group {
+    @apply flex flex-col gap-y-2;
+  }
+}
+
+/* text-white bg-primary font-bungee p-2 rounded-xl 
+                                   hover:bg-transparent hover:text-primary hover:border-0.5 hover:border-primary */
+
+@font-face {
+  font-family: Bungee;
+  src: url("./assets/Bungee-Regular.ttf");
+}
+
+@font-face {
+  font-family: Inter-Light;
+  src: url("./assets/Inter-Light.ttf");
+}
+
+@font-face {
+  font-family: Inter-Regular;
+  src: url("./assets/Inter-Regular.ttf");
+}
+
+
+/* :root {
   --primary-color: #FF6852;
   --secondary-color: #F5D7B8;
   --dark-grey: #7F7F7F;
@@ -27,7 +118,7 @@ code {
 
 
 
-/* Global Styles */
+Global Styles
 h1,
 h2,
 h3,
@@ -55,7 +146,7 @@ p {
 
 
 /* Box style */
-.primary-box {
+/* .primary-box {
   border: 0.5px solid var(--primary-color);
   border-radius: 12px;
 }
@@ -63,4 +154,4 @@ p {
 .secondary-box {
   border: 0.5px solid var(--secondary-color);
   border-radius: 12px;
-}
+} */

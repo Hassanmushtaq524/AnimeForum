@@ -1,6 +1,4 @@
 import React from 'react'
-// CSS
-import "./SideBar.css";
 // components
 import AddPost from '../AddPost/AddPost.js';
 import { useSelector } from 'react-redux';

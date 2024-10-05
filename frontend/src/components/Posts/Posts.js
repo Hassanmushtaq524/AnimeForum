@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 
-// CSS
-import "./Posts.css";
 // components
 import Post from "../Post/Post.js";
 // Redux
@@ -19,11 +17,13 @@ export default function Posts(props) {
 
     return (
         <>
-        <div id="posts" className="secondary-box">
-            <div className="posts-heading">
-                <h2>{title}</h2>
-            </div>
-            <div className="all-posts">
+        <div id="posts" 
+            className="border-solid border-1 border-secondary rounded-xl
+                       p-8 
+                       h-full 
+                       overflow-y-scroll 
+                       w-[600px] no-scrollbar">
+            <div className="all-posts flex flex-col gap-y-4">
                 { posts?.length ? 
                     posts.map((val, i, posts) => {
                         return (

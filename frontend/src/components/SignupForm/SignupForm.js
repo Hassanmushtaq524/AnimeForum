@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-// CSS
-import "./SignupForm.css";
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { signup, setError, resetState } from '../../features/authSlice';
@@ -82,33 +80,38 @@ export default function SignupForm() {
 
 
     return (
-        <form className="signup-form" ref={signupRef} onSubmit={handleSubmit}>
-            <h4>Signup</h4>
-            <div className="form-group">
+        <form ref={signupRef} onSubmit={handleSubmit}
+              className="signup-form 
+                         p-4 
+                         border-1 border-secondary rounded-xl 
+                         grid grid-cols-2 gap-4
+                         w-1/2" >
+            <h3 className="text-primary col-span-2">Signup</h3>
+            <div className="form-group col-span-1">
                 <label><h6>First Name</h6></label>
                 <input type="text" name="firstName" className="form-control" placeholder="Enter First Name"/>
             </div>
-            <div className="form-group">
+            <div className="form-group col-span-1">
                 <label><h6>Last Name</h6></label>
                 <input type="text" name="lastName" className="form-control" placeholder="Enter Last Name"/>
             </div>
-            <div className="form-group">
+            <div className="form-group col-span-2">
                 <label><h6>User Name</h6></label>
                 <input type="text" name="userName" className="form-control" placeholder="Enter User Name"/>
             </div>
-            <div className="form-group">
+            <div className="form-group col-span-2">
                 <label><h6>Email</h6></label>
                 <input type="email" name="email" className="form-control" placeholder="Enter Email"/>
             </div>
-            <div className="form-group">
+            <div className="form-group col-span-1">
                 <label><h6>Password</h6></label>
                 <input type="password" name="password" className="form-control" placeholder="Enter Password"/>
             </div>
-            <div className="form-group">
+            <div className="form-group col-span-1">
                 <label><h6>Confirm Password</h6></label>
                 <input type="password" name="conPassword" className="form-control" placeholder="Confirm Password"/>
             </div>
-            <button type="submit" className="btn btn-submit">SIGNUP</button>
+            <button type="submit" className="btn btn-submit col-span-2">SIGNUP</button>
             <p style={(error) ? {visibility: "visible", color: "red"} : {visibility: "hidden"}}>{error}</p>
         </form>
     )

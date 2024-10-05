@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import "./AddComment.css";
 import { addComment } from '../../features/postSlice';
 
 function AddComment(props) {
@@ -37,8 +36,10 @@ function AddComment(props) {
     }
 
     return (
-        <div id="add-comment" className="secondary-box">
-            <form className="add-comment-form" onSubmit={handleSubmit}>
+        <div id="add-comment" 
+             className="secondary-box w-[300px]">
+            <form className="add-comment-form 
+                             flex flex-col gap-y-4" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <textarea type="text" onChange={handleChange} value={newComment.text} name="text" className="form-control" placeholder="Enter Text"/>
                 </div>

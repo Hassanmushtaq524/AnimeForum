@@ -11,15 +11,19 @@ import { Routes, Route } from "react-router-dom";
 function App() {
   return (
     <>
-      <Navbar />
-      <Routes>
-          <Route index element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/profile/:_id" element= {<Profile/>} />
-          <Route path="/post/:_id" element={<PostPage/>}/>
-      </Routes>
+      <div className="flex">
+          <Navbar />
+          <div className="flex flex-grow justify-center items-start h-screen">
+            <Routes>
+                <Route index element={<Home />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/profile/:_id" element= {<Profile/>} />
+                <Route path="/post/:_id" element={<PostPage/>}/>
+            </Routes>
+          </div>
+      </div>
     </>
   );
 }

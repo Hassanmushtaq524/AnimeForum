@@ -1,7 +1,5 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
-// CSS
-import "./Comments.css";
 import Comment from '../Comment/Comment';
 function Comments(props) {
     /**
@@ -17,7 +15,10 @@ function Comments(props) {
 
 
     return (
-        <div id="comments">
+        <div id="comments"
+             className="flex flex-col gap-y-4
+                        h-fit w-full">
+            <h4 className="text-primary">COMMENTS</h4>
         {
             post.comments.length ?
                 post?.comments.map((comment, i) => {

@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-// CSS
-import "./Login.css";
 // components
 import LoginForm from '../../components/LoginForm/LoginForm.js';
 import { useSelector, useDispatch } from 'react-redux';
@@ -25,7 +23,8 @@ export default function Login() {
 
     return (
         <>
-        <div id="login-page">
+        <div id="login-page"
+             className="flex flex-wrap h-full gap-x-6 p-6 justify-center items-center w-full">
             <LoginForm/>
         </div>
         </>
