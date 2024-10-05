@@ -34,7 +34,8 @@ const Home = () => {
              className="flex flex-wrap h-full gap-x-6 p-6 justify-center">
             <Posts/>
             { (user) ? <AddPost/> :  
-            <div className="btn-container">
+            <div className="btn-containe 
+                            flex flex-col gap-y-4 border-1 border-secondary rounded-xl p-4 h-fit w-96 items-center">
                 <button type="submit" className="btn btn-submit" onClick={() => navigate('/login')}>Login</button>
                 <h5>OR</h5>
                 <button type="submit" className="btn btn-submit" onClick={() => navigate('/signup')}>Signup</button>

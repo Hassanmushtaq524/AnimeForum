@@ -13,7 +13,7 @@ function App() {
     <>
       <div className="flex">
           <Navbar />
-          <div className="flex flex-grow justify-center items-center h-screen">
+          <div className="flex flex-grow justify-center items-start h-screen">
             <Routes>
                 <Route index element={<Home />} />
                 <Route path="/home" element={<Home />} />

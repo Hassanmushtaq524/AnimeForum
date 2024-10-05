@@ -22,7 +22,8 @@ export default function Signup() {
   }, [user, dispatch, navigate])
 
   return (
-    <div id="signup-page">
+    <div id="signup-page"
+         className="flex flex-wrap h-full gap-x-6 p-6 justify-center items-center w-full">
            <SignupForm/>
     </div>
   )

@@ -89,7 +89,7 @@ export default function Post(props) {
 
     return (
         <div className="post primary-box
-                        border-solid border-1 border-primary p-8 rounded-xl overflow-y-scroll flex flex-col gap-y-4 max-w-xl h-fit text-wrap" 
+                        border-solid border-1 border-primary p-8 rounded-xl flex flex-col gap-y-4 max-w-xl h-fit text-wrap overflow-hidden" 
              onClick={() => navigate(`/post/${_id}`)}>
             <h3>{title}</h3>
             <p>{parseDescription(description)}</p>
@@ -105,8 +105,8 @@ export default function Post(props) {
                     </p>
                     <h6>{Object.keys(likes).length}</h6>
                 </div>
-                <div className="date-container font-interRegular text-darkGray text-sm">
-                    <p className="date">{parseDate(date)}</p>  
+                <div className="date-container">
+                    <p className="date font-interRegular text-darkGray text-xs">{parseDate(date)}</p>  
                 </div>
                 {authUser && 
                 <div className="delete-container justify-self-end">

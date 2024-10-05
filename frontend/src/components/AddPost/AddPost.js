@@ -59,8 +59,7 @@ function AddPost() {
                 </div>
                 <p style={(error) ? {visibility: "visible", color: "red"} : {visibility: "collapse"}}>Please enter a valid post</p>
                 <button type="submit" 
-                        className="btn btn-submit text-white bg-primary font-bungee p-2 rounded-xl 
-                                   hover:bg-transparent hover:text-primary hover:border-0.5 hover:border-primary">
+                        className="btn btn-submit">
                         + Add Post
                 </button>
             </form>

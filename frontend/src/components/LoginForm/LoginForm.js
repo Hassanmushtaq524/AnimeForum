@@ -49,8 +49,8 @@ export default function LoginForm() {
 
 
     return (
-        <form className="login-form" ref={loginRef} onSubmit={handleSubmit}>
-            <h4>Login</h4>
+        <form className="login-form p-4 border-1 border-secondary rounded-xl flex flex-col gap-y-6 w-1/2" ref={loginRef} onSubmit={handleSubmit}>
+            <h3>Login</h3>
             <div className="form-group">
                 <label><h6>Email</h6></label>
                 <input type="email" name="email" className="form-control" placeholder="Enter Email"/>

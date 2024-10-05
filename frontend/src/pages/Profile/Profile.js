@@ -59,7 +59,7 @@ export default function Profile() {
                  onClick={() => setSelected("Liked")}>Liked Posts</h3>
                 {authUser && <h3 onClick={handleLogout}>Logout</h3>}
             </div>
-            <Posts title={selected}/>
+            <Posts/>
         </div>
     )
 }
